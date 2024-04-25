@@ -1,5 +1,4 @@
 {
-  "java.format.settings.url": "google-style-formatter.xml",
   "java.configuration.updateBuildConfiguration": "automatic",
   "java.server.launchMode": "Standard",
   "files.exclude": {

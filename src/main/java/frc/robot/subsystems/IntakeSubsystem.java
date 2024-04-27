@@ -14,4 +14,14 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+  //beambreak get function
+
+  //outer motor run function
+
+  //inner motor run function
+
+  //inner motor get speed function
+
+  //outer motor get speed function
 }

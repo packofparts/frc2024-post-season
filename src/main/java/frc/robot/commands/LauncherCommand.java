@@ -5,16 +5,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.beamBreakerSubsystem;
-// import frc.robot.subsystems.limeLightSubsystem;
 
-public class testBeamBreaker extends Command {
-  beamBreakerSubsystem beamSub;
-  /** Creates a new TestLimitSwitch. */
-  public testBeamBreaker(beamBreakerSubsystem beamSub) {
+public class LauncherCommand extends Command {
+  /** Creates a new LauncherCommand. */
+  public LauncherCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.beamSub = beamSub;
-    addRequirements(beamSub);
   }
 
   // Called when the command is initially scheduled.
@@ -23,9 +18,7 @@ public class testBeamBreaker extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    System.out.print(beamSub.getBeamValue());
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override

@@ -4,11 +4,19 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new IntakeSubsystem. */
-
+  private final CANSparkMax IntakeMotorInner;
+  private final CANSparkMax IntakeMotorOuter;
+  private final DigitalInput beamBreakInput;
   /* 
   Hardware:
   2x Neo Motors (brushless) <- ask Kevin for more info if needed
@@ -21,7 +29,11 @@ public class IntakeSubsystem extends SubsystemBase {
   // TODO: declare variables
 
   public IntakeSubsystem() {
-    // TODO: Initialize variables 
+    IntakeMotorInner = new CANSparkMax(IntakeConstants.INNER_INTAKE_SPARK_ID, MotorType.kBrushless);
+    IntakeMotorOuter = new CANSparkMax(IntakeConstants.OUTER_INTAKE_SPARK_ID, MotorType.kBrushless);
+    beamBreakInput = new DigitalInput(IntakeConstants.INTAKE_BEAMBREAK_ID);
+    IntakeMotorInner.restoreFactoryDefaults();
+    IntakeMotorOuter.restoreFactoryDefaults();
   }
 
   @Override
@@ -31,25 +43,26 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public boolean pieceInIntake() {
-    return false; // TODO
+    return beamBreakInput.get(); // CHECK
   }
-  //outer motor run function
-  public void runOuterMotor(double speed) {
-    //TODO
+  
+  public void intakeMotorsAtSpeed(double percentOutput){
+    IntakeMotorInner.set(percentOutput);
+    IntakeMotorOuter.set(percentOutput);
   }
-
-  //inner motor run function
-
-  public void runInnerMotor(double speed) {
-    //TODO
-  }
-  //inner motor get speed function
-  public double getInnerSpeed() {
-    return 0.0; // TODO
+  public void innerMotorAtSpeed(double percentOutput){
+    IntakeMotorInner.set(percentOutput);
   }
 
-  //outer motor get speed function
-  public double getOuterSpeed() {
-    return 0.0; // TODO
+  public void outerMotorAtSpeed(double percentOutput){
+    IntakeMotorOuter.set(percentOutput);
+  }
+
+  public void stopMotors() {
+    IntakeMotorInner.set(0.0);
+    IntakeMotorOuter.set(0.0);
+  }
+  public void noteToLauncher() {
+    IntakeMotorInner.set(IntakeConstants.ACTIVE_INTAKE_SPEED);
   }
 }

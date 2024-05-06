@@ -16,7 +16,7 @@ public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new IntakeSubsystem. */
   private final CANSparkMax IntakeMotorInner;
   private final CANSparkMax IntakeMotorOuter;
-  private final DigitalInput beamBreakInput;
+  public final DigitalInput beamBreakInput;
   /* 
   Hardware:
   2x Neo Motors (brushless) <- ask Kevin for more info if needed
@@ -38,7 +38,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    // This method will be called once per sche duler run
     // LEAVE THIS BLANK
   }
 

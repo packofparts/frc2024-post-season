@@ -38,7 +38,7 @@ public class Input extends SubsystemBase {
    *  return controllerVariableName.someGetMethod();
    * }
    */
-  public static boolean getA(){
+  public static boolean getIntake(){
     return mXbox.getAButtonPressed();
   }
   public static boolean getB(){
@@ -46,5 +46,8 @@ public class Input extends SubsystemBase {
   }
   public static boolean getX(){
     return mXbox.getXButtonPressed();
+  }
+  public static boolean aReleased(){
+    return mXbox.getAButtonReleased();
   }
 }

@@ -9,17 +9,15 @@ import frc.robot.Input;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeCommand extends Command {
-  private IntakeSubsystem intakeSubsystem;
+  private IntakeSubsystem mIntake;
 
   /** Creates a new IntakeCommand. */
   // Required subsystems: Intake
 
-  // TODO: Declare Variables
   public IntakeCommand(IntakeSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    // TODO: Initizalize Variables
     addRequirements(intake);
-    intakeSubsystem = intake;
+    mIntake = intake;
   }
 
 
@@ -32,17 +30,12 @@ public class IntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // TODO: Read input from controller using Input class
-    // TODO: Check if there is piece already the intake
-    // TODO: Use the methods in the IntakeSubsystem to run the intakes if needed
-    // TODO: Make sure to auto stop when needed (eg. you have detected a peice in the Intake)
-    addRequirements(intakeSubsystem);
-    if (Input.getA()) {
-      if (intakeSubsystem.pieceInIntake()) {
-        intakeSubsystem.getCurrentCommand().execute();
-        intakeSubsystem.stopMotors();
+    if (Input.getIntake()) {
+      if (mIntake.pieceInIntake()) {
+        mIntake.stopMotors();
       } else {
-        intakeSubsystem.innerMotorAtSpeed(0.5);
+        mIntake.intakeMotorsAtSpeed(0.5);
+        //runs both the motors.
       }
     }
   }

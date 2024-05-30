@@ -17,9 +17,9 @@ public class Input extends SubsystemBase {
    * 1x XboxController
    */
 
-  XboxController mXbox = new XboxController(1);
-  Joystick rotJoystick = new Joystick(0);
-  Joystick transJoystick = new Joystick(2);
+  public static final XboxController mXbox = new XboxController(1);
+  public static final Joystick rotJoystick = new Joystick(0);
+  public static final Joystick transJoystick = new Joystick(2);
   public Input() {
     throw new IllegalStateException("Input Class"); // aka dont create an instance, use this statically
   }
@@ -38,4 +38,13 @@ public class Input extends SubsystemBase {
    *  return controllerVariableName.someGetMethod();
    * }
    */
+  public static boolean getIntake(){
+    return mXbox.getAButtonPressed();
+  }
+  public static boolean getB(){
+    return mXbox.getBButtonPressed();
+  }
+  public static boolean getX(){
+    return mXbox.getXButtonPressed();
+  }
 }

@@ -4,11 +4,17 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new IntakeSubsystem. */
-
+  private final CANSparkMax mInnerMotor;
+  private final CANSparkMax mOuterMoter;
+  public final DigitalInput mBeamBreak;
   /* 
   Hardware:
   2x Neo Motors (brushless) <- ask Kevin for more info if needed
@@ -21,35 +27,36 @@ public class IntakeSubsystem extends SubsystemBase {
   // TODO: declare variables
 
   public IntakeSubsystem() {
-    // TODO: Initialize variables 
+    mInnerMotor = new CANSparkMax(IntakeConstants.INNER_INTAKE_SPARK_ID, MotorType.kBrushless);
+    mOuterMoter = new CANSparkMax(IntakeConstants.OUTER_INTAKE_SPARK_ID, MotorType.kBrushless);
+    mBeamBreak = new DigitalInput(IntakeConstants.INTAKE_BEAMBREAK_ID);
+    mInnerMotor.restoreFactoryDefaults();
+    mOuterMoter.restoreFactoryDefaults();
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    // This method will be called once per sche duler run
     // LEAVE THIS BLANK
   }
 
   public boolean pieceInIntake() {
-    return false; // TODO
+    return mBeamBreak.get(); // CHECK
   }
-  //outer motor run function
-  public void runOuterMotor(double speed) {
-    //TODO
+  
+  public void intakeMotorsAtSpeed(double percentOutput){
+    mInnerMotor.set(percentOutput);
+    mOuterMoter.set(percentOutput);
   }
-
-  //inner motor run function
-
-  public void runInnerMotor(double speed) {
-    //TODO
-  }
-  //inner motor get speed function
-  public double getInnerSpeed() {
-    return 0.0; // TODO
+  public void innerMotorAtSpeed(double percentOutput){
+    mInnerMotor.set(percentOutput);
   }
 
-  //outer motor get speed function
-  public double getOuterSpeed() {
-    return 0.0; // TODO
+  public void outerMotorAtSpeed(double percentOutput){
+    mOuterMoter.set(percentOutput);
+  }
+
+  public void noteToLauncher() {
+    mInnerMotor.set(IntakeConstants.ACTIVE_INTAKE_SPEED);
   }
 }

@@ -56,10 +56,6 @@ public class IntakeSubsystem extends SubsystemBase {
     mOuterMoter.set(percentOutput);
   }
 
-  public void stopMotors() {
-    mInnerMotor.set(0.0);
-    mOuterMoter.set(0.0);
-  }
   public void noteToLauncher() {
     mInnerMotor.set(IntakeConstants.ACTIVE_INTAKE_SPEED);
   }

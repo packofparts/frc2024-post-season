@@ -32,7 +32,7 @@ public class IntakeCommand extends Command {
   public void execute() {
     if (Input.getIntake()) {
       if (mIntake.pieceInIntake()) {
-        mIntake.stopMotors();
+        mIntake.intakeMotorsAtSpeed(0);
       } else {
         mIntake.intakeMotorsAtSpeed(0.5);
         //runs both the motors.

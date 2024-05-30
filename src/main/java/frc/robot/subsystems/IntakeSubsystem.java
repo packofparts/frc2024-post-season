@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -14,9 +12,9 @@ import frc.robot.constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new IntakeSubsystem. */
-  private final CANSparkMax IntakeMotorInner;
-  private final CANSparkMax IntakeMotorOuter;
-  public final DigitalInput beamBreakInput;
+  private final CANSparkMax mInnerMotor;
+  private final CANSparkMax mOuterMoter;
+  public final DigitalInput mBeamBreak;
   /* 
   Hardware:
   2x Neo Motors (brushless) <- ask Kevin for more info if needed
@@ -29,11 +27,11 @@ public class IntakeSubsystem extends SubsystemBase {
   // TODO: declare variables
 
   public IntakeSubsystem() {
-    IntakeMotorInner = new CANSparkMax(IntakeConstants.INNER_INTAKE_SPARK_ID, MotorType.kBrushless);
-    IntakeMotorOuter = new CANSparkMax(IntakeConstants.OUTER_INTAKE_SPARK_ID, MotorType.kBrushless);
-    beamBreakInput = new DigitalInput(IntakeConstants.INTAKE_BEAMBREAK_ID);
-    IntakeMotorInner.restoreFactoryDefaults();
-    IntakeMotorOuter.restoreFactoryDefaults();
+    mInnerMotor = new CANSparkMax(IntakeConstants.INNER_INTAKE_SPARK_ID, MotorType.kBrushless);
+    mOuterMoter = new CANSparkMax(IntakeConstants.OUTER_INTAKE_SPARK_ID, MotorType.kBrushless);
+    mBeamBreak = new DigitalInput(IntakeConstants.INTAKE_BEAMBREAK_ID);
+    mInnerMotor.restoreFactoryDefaults();
+    mOuterMoter.restoreFactoryDefaults();
   }
 
   @Override
@@ -43,26 +41,26 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public boolean pieceInIntake() {
-    return beamBreakInput.get(); // CHECK
+    return mBeamBreak.get(); // CHECK
   }
   
   public void intakeMotorsAtSpeed(double percentOutput){
-    IntakeMotorInner.set(percentOutput);
-    IntakeMotorOuter.set(percentOutput);
+    mInnerMotor.set(percentOutput);
+    mOuterMoter.set(percentOutput);
   }
   public void innerMotorAtSpeed(double percentOutput){
-    IntakeMotorInner.set(percentOutput);
+    mInnerMotor.set(percentOutput);
   }
 
   public void outerMotorAtSpeed(double percentOutput){
-    IntakeMotorOuter.set(percentOutput);
+    mOuterMoter.set(percentOutput);
   }
 
   public void stopMotors() {
-    IntakeMotorInner.set(0.0);
-    IntakeMotorOuter.set(0.0);
+    mInnerMotor.set(0.0);
+    mOuterMoter.set(0.0);
   }
   public void noteToLauncher() {
-    IntakeMotorInner.set(IntakeConstants.ACTIVE_INTAKE_SPEED);
+    mInnerMotor.set(IntakeConstants.ACTIVE_INTAKE_SPEED);
   }
 }

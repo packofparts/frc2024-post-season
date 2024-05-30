@@ -47,7 +47,4 @@ public class Input extends SubsystemBase {
   public static boolean getX(){
     return mXbox.getXButtonPressed();
   }
-  public static boolean aReleased(){
-    return mXbox.getAButtonReleased();
-  }
 }

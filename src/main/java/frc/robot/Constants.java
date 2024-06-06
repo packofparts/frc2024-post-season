@@ -4,9 +4,17 @@
 
 package frc.robot;
 
+import frc.robot.SushiLib.Motor.MotorConfig;
+import frc.robot.SushiLib.Sensors.BeamBreak.BeamBreakConfig;
 
 public final class Constants {
-  public static class Ports {
-    public static final String CANIVORE_NAME = ""; // TODO: Set later
-  }
+    public static class Ports {
+        public static final String CANIVORE_NAME = ""; // TODO: Set later
+    }
+
+    public static class Intake {
+        public static MotorConfig OUTER_MOTOR = new MotorConfig(-1); // TODO: set later
+        public static MotorConfig INNER_MOTOR = new MotorConfig(-1); // TODO: set later
+        public static BeamBreakConfig BEAM_BREAK = new BeamBreakConfig(-1); // TODO: set later
+    }
 }

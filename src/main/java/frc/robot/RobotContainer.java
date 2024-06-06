@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.SushiLib.Controllers.OI;
+import frc.robot.subsystems.Intake;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -15,12 +17,19 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+    private final Intake intake;
+    private final OI oi;
 
-  public RobotContainer() {
-    configureBindings();
-  }
+    public RobotContainer() {
+        intake = Intake.getInstance();
+        oi = OI.getInstance();
 
-  private void configureBindings() {}
+        configureBindings();
+    }
 
-  public Command getAutonomousCommand() { return null; }
+    private void configureBindings() {
+        oi.getDriverController().a().onTrue(intake.intakePiece());
+    }
+
+    public Command getAutonomousCommand() { return null; }
 }

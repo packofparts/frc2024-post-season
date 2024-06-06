@@ -5,57 +5,58 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.SushiLib.Sensors.BeamBreak.BeamBreak;
 
 public class Intake extends SubsystemBase {
-  private final CANSparkMax innerMotor;
-  private final CANSparkMax outerMotor;
-  private final DigitalInput beamBreak;
+    private final CANSparkMax innerMotor;
+    private final CANSparkMax outerMotor;
+    private final BeamBreak beamBreak;
 
-  /* 
-  Hardware:
-  2x Neo Motors (brushless) <- ask Kevin for more info if needed
-  1x beambreak sensor
+    private static Intake instance;
 
-  Hints: https://letmegooglethat.com/?q=wpilib+digital+sensor+api
-         https://letmegooglethat.com/?q=rev+robotics+neo+api+documentation+java
-  */
-  
-  // TODO: declare variables
+    public static Intake getInstance() {
+        if (instance == null) {
+            instance = new Intake();
+        }
+        return instance;
+    }
 
-  public Intake() {
-    mInnerMotor = new CANSparkMax(IntakeConstants.INNER_INTAKE_SPARK_ID, MotorType.kBrushless);
-    mOuterMoter = new CANSparkMax(IntakeConstants.OUTER_INTAKE_SPARK_ID, MotorType.kBrushless);
-    mBeamBreak = new DigitalInput(IntakeConstants.INTAKE_BEAMBREAK_ID);
-    mInnerMotor.restoreFactoryDefaults();
-    mOuterMoter.restoreFactoryDefaults();
-  }
+    private Intake() {
+        innerMotor = Constants.Intake.INNER_MOTOR.createSparkMax();
+        outerMotor = Constants.Intake.OUTER_MOTOR.createSparkMax();
+        beamBreak = Constants.Intake.BEAM_BREAK.createBeamBreak();
+    }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per sche duler run
-    // LEAVE THIS BLANK
-  }
+    @Override
+    public void periodic() {}
 
-  public boolean pieceInIntake() {
-    return mBeamBreak.get(); // CHECK
-  }
-  
-  public void intakeMotorsAtSpeed(double percentOutput){
-    mInnerMotor.set(percentOutput);
-    mOuterMoter.set(percentOutput);
-  }
-  public void innerMotorAtSpeed(double percentOutput){
-    mInnerMotor.set(percentOutput);
-  }
+    public Command runIntake() {
+        return runOnce(() -> {
+            innerMotor.set(0.8);
+            outerMotor.set(0.8);
+        });
+    }
 
-  public void outerMotorAtSpeed(double percentOutput){
-    mOuterMoter.set(percentOutput);
-  }
+    public Command reverseIntake() {
+        return runOnce(() -> {
+            innerMotor.set(-0.8);
+            outerMotor.set(-0.8);
+        });
+    }
 
-  public void noteToLauncher() {
-    mInnerMotor.set(IntakeConstants.ACTIVE_INTAKE_SPEED);
-  }
+    public Command stopIntake() {
+        return runOnce(() -> {
+            innerMotor.set(0.0);
+            outerMotor.set(0.0);
+        });
+    }
+
+    public Command intakePiece() {
+        return runIntake().until(
+            beamBreak.getBlockedSupplier()
+        ).andThen(stopIntake());
+    }
 }

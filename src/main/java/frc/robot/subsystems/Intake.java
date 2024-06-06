@@ -8,13 +8,12 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.IntakeConstants;
 
-public class IntakeSubsystem extends SubsystemBase {
-  /** Creates a new IntakeSubsystem. */
-  private final CANSparkMax mInnerMotor;
-  private final CANSparkMax mOuterMoter;
-  public final DigitalInput mBeamBreak;
+public class Intake extends SubsystemBase {
+  private final CANSparkMax innerMotor;
+  private final CANSparkMax outerMotor;
+  private final DigitalInput beamBreak;
+
   /* 
   Hardware:
   2x Neo Motors (brushless) <- ask Kevin for more info if needed
@@ -26,7 +25,7 @@ public class IntakeSubsystem extends SubsystemBase {
   
   // TODO: declare variables
 
-  public IntakeSubsystem() {
+  public Intake() {
     mInnerMotor = new CANSparkMax(IntakeConstants.INNER_INTAKE_SPARK_ID, MotorType.kBrushless);
     mOuterMoter = new CANSparkMax(IntakeConstants.OUTER_INTAKE_SPARK_ID, MotorType.kBrushless);
     mBeamBreak = new DigitalInput(IntakeConstants.INTAKE_BEAMBREAK_ID);

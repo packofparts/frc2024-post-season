@@ -4,10 +4,14 @@
 
 package frc.robot;
 
+import frc.robot.SushiLib.Control.PIDConfig;
 import frc.robot.SushiLib.Motor.MotorConfig;
+import frc.robot.SushiLib.Motor.MotorConfig.Mode;
 import frc.robot.SushiLib.Sensors.BeamBreak.BeamBreakConfig;
 
 public final class Constants {
+    public static final boolean TUNING_MODE = false;
+
     public static class Ports {
         public static final String CANIVORE_NAME = ""; // TODO: Set later
     }
@@ -16,5 +20,29 @@ public final class Constants {
         public static MotorConfig OUTER_MOTOR = new MotorConfig(-1); // TODO: set later
         public static MotorConfig INNER_MOTOR = new MotorConfig(-1); // TODO: set later
         public static BeamBreakConfig BEAM_BREAK = new BeamBreakConfig(-1); // TODO: set later
+    }
+
+    public static class Wrist {
+        public final static MotorConfig LEFT_MOTOR = new MotorConfig(
+            -1,
+            20,
+            false,
+            new PIDConfig(0.0, 0.0, 0.0, 0.0),
+            Mode.BRAKE
+        );
+
+        public final static MotorConfig RIGHT_MOTOR = new MotorConfig(
+            -1,
+            20,
+            false,
+            new PIDConfig(0.0, 0.0, 0.0, 0.0),
+            Mode.BRAKE
+        );
+
+        public static final double G = 0.0;
+        public static final double S = 0.0;
+        public static final double V = 0.0;
+
+        public static final double GEAR_RATIO = 1.0;
     }
 }

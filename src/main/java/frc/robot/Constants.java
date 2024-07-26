@@ -4,10 +4,10 @@
 
 package frc.robot;
 
-import frc.robot.SushiLib.Control.PIDConfig;
-import frc.robot.SushiLib.Motor.MotorConfig;
-import frc.robot.SushiLib.Motor.MotorConfig.Mode;
-import frc.robot.SushiLib.Sensors.BeamBreak.BeamBreakConfig;
+import POPLib.Control.PIDConfig;
+import POPLib.Motor.MotorConfig;
+import POPLib.Motor.MotorConfig.Mode;
+import POPLib.Sensors.BeamBreak.BeamBreakConfig;
 
 public final class Constants {
     public static final boolean TUNING_MODE = false;
@@ -44,5 +44,23 @@ public final class Constants {
         public static final double V = 0.0;
 
         public static final double GEAR_RATIO = 1.0;
+    }
+
+    public static class Shooter {
+        public final static MotorConfig TOP_MOTOR = new MotorConfig(
+            -1,
+            20,
+            false,
+            new PIDConfig(0.0, 0.0, 0.0, 0.0),
+            Mode.BRAKE
+        );
+
+        public final static MotorConfig BOTTOM_MOTOR = new MotorConfig(
+            -1,
+            20,
+            false,
+            new PIDConfig(0.0, 0.0, 0.0, 0.0),
+            Mode.BRAKE
+        ); 
     }
 }

@@ -6,15 +6,15 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.ControlType;
+import POPLib.Motor.MotorHelper;
+import POPLib.Sensors.AbsoluteEncoder.AbsoluteEncoder;
+import POPLib.SmartDashboard.PIDTuning;
+import POPLib.SmartDashboard.TunableNumber;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.SushiLib.Motor.MotorHelper;
-import frc.robot.SushiLib.Sensors.AbsoluteEncoder.AbsoluteEncoder;
-import frc.robot.SushiLib.SmartDashboard.PIDTuning;
-import frc.robot.SushiLib.SmartDashboard.TunableNumber;
 
 public class Wrist extends SubsystemBase {
     private final CANSparkMax leftMotor;
@@ -56,7 +56,7 @@ public class Wrist extends SubsystemBase {
 
         setpoint = new TunableNumber("Wrist Setpoint", 0, Constants.TUNING_MODE);
 
-        rightMotor.getEncoder().setPosition(absoluteEncoder.getNormalizedPosition());
+        rightMotor.getEncoder().setPosition(absoluteEncoder.getPosition());
     }
 
     public Command moveWrist(double position) {

@@ -4,9 +4,11 @@
 
 package frc.robot;
 
+import POPLib.Control.ArmFFConfig;
 import POPLib.Control.PIDConfig;
 import POPLib.Motor.MotorConfig;
 import POPLib.Motor.MotorConfig.Mode;
+import POPLib.Sensors.AbsoluteEncoder.AbsoluteEncoderConfig;
 import POPLib.Sensors.BeamBreak.BeamBreakConfig;
 
 public final class Constants {
@@ -38,12 +40,10 @@ public final class Constants {
             new PIDConfig(0.0, 0.0, 0.0, 0.0),
             Mode.BRAKE
         );
-
-        public static final double G = 0.0;
-        public static final double S = 0.0;
-        public static final double V = 0.0;
-
+        
+        public static final ArmFFConfig FF = new ArmFFConfig(0.0);
         public static final double GEAR_RATIO = 1.0;
+        public static final AbsoluteEncoderConfig ABSOLUTE_CONFIG = new AbsoluteEncoderConfig(0, 0.0, false);
     }
 
     public static class Shooter {

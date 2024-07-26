@@ -4,10 +4,16 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import POPLib.Sensors.BeamBreak.BeamBreak;
 import POPLib.Subsytems.Flywheel.SparkFlywheel;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 
 public class Shooter extends SparkFlywheel {
+    private final CANSparkMax indexer;
+    private final BeamBreak beamBreak;
+
     private static Shooter instance;
 
     public static Shooter getInstance() {
@@ -19,6 +25,30 @@ public class Shooter extends SparkFlywheel {
 
     private Shooter() {
         super(Constants.Shooter.TOP_MOTOR, Constants.Shooter.BOTTOM_MOTOR, "Shooter", Constants.TUNING_MODE, true);
+
+        indexer = Constants.Shooter.INDEXER_MOTOR.createSparkMax();
+        beamBreak = Constants.Shooter.BEAM_BREAK.createBeamBreak();
+    }
+
+    public void turnOnIndexer() {
+        indexer.set(Constants.Shooter.INDEXER_SPEED);
+    }
+
+    public void turnOffIndexer() {
+        indexer.set(0.0);
+    }
+
+    public Command fireNote(double setpoint) {
+        return updateSetpointCommand(setpoint, Constants.Shooter.MAX_ERROR).
+            andThen(this::turnOnIndexer).
+            until(beamBreak.getUnBlockedSupplier())
+            .andThen(this::turnOffIndexer);
+    }
+
+    public Command feedInNote() {
+        return run(this::turnOnIndexer).
+            until(beamBreak.getBlockedSupplier())
+            .andThen(this::turnOffIndexer);
     }
 
     @Override

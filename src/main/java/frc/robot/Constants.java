@@ -62,5 +62,19 @@ public final class Constants {
             new PIDConfig(0.0, 0.0, 0.0, 0.0),
             Mode.BRAKE
         ); 
+
+        public final static MotorConfig INDEXER_MOTOR = new MotorConfig(
+            -1,
+            20,
+            false,
+            new PIDConfig(0.0, 0.0, 0.0, 0.0),
+            Mode.BRAKE
+        );
+
+        public static final double MAX_ERROR = 5.0;
+
+        public static final double INDEXER_SPEED = 0.8;
+
+        public static BeamBreakConfig BEAM_BREAK = new BeamBreakConfig(-1); // TODO: set later
     }
 }

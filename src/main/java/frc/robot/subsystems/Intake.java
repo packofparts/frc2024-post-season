@@ -30,9 +30,6 @@ public class Intake extends SubsystemBase {
         beamBreak = Constants.Intake.BEAM_BREAK.createBeamBreak();
     }
 
-    @Override
-    public void periodic() {}
-
     public Command runIntake() {
         return runOnce(() -> {
             innerMotor.set(0.8);

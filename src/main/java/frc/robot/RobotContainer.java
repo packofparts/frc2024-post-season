@@ -5,8 +5,10 @@
 package frc.robot;
 
 import POPLib.Controllers.OI;
+import POPLib.Swerve.Commands.TeleopSwerveDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Swerve;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -16,17 +18,21 @@ import frc.robot.subsystems.Intake;
  */
 public class RobotContainer {
     private final Intake intake;
+    private final Swerve swerve;
     private final OI oi;
 
     public RobotContainer() {
         intake = Intake.getInstance();
         oi = OI.getInstance();
+        swerve = Swerve.getInstance();
 
         configureBindings();
     }
 
     private void configureBindings() {
         oi.getDriverController().a().onTrue(intake.intakePiece());
+
+        swerve.setDefaultCommand(new TeleopSwerveDrive(swerve, oi));
     }
 
     public Command getAutonomousCommand() { return null; }

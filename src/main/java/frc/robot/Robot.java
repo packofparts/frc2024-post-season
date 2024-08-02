@@ -18,6 +18,15 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
 
+  public enum RobotState { 
+    IDLE,
+    INTAKE,
+    INDEX,
+    SHOOT_FENDER,
+    AMP,
+  };
+
+
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();

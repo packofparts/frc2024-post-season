@@ -8,6 +8,7 @@ import POPLib.Controllers.OI;
 import POPLib.Swerve.Commands.TeleopSwerveDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 
 /**
@@ -19,18 +20,20 @@ import frc.robot.subsystems.Swerve;
 public class RobotContainer {
     private final Intake intake;
     private final Swerve swerve;
+    private final Shooter shooter;
     private final OI oi;
 
     public RobotContainer() {
         intake = Intake.getInstance();
         oi = OI.getInstance();
         swerve = Swerve.getInstance();
+        shooter = Shooter.getInstance();
 
         configureBindings();
     }
 
     private void configureBindings() {
-        oi.getDriverController().a().onTrue(intake.intakePiece());
+        oi.getDriverController().a().onTrue(intake.intakePiece().andThen(shooter.feedInNote()).andThen(intake.stopIntake()));
 
         swerve.setDefaultCommand(new TeleopSwerveDrive(swerve, oi));
     }

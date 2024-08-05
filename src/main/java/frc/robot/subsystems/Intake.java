@@ -6,8 +6,10 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import POPLib.Sensors.BeamBreak.BeamBreak;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
@@ -51,9 +53,20 @@ public class Intake extends SubsystemBase {
         });
     }
 
+    public Command stopOuterIntake() {
+        return runOnce(() -> {
+            outerMotor.set(0.0);
+        });
+    }
+
     public Command intakePiece() {
-        return runIntake().until(
+        return runIntake().andThen(run(() -> {})).until(
             beamBreak.getBlockedSupplier()
-        ).andThen(stopIntake());
+        ).andThen(stopOuterIntake());
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putBoolean("Intake Beam Break", beamBreak.isBlocked());
     }
 }

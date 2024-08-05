@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.util.PIDConstants;
 import POPLib.Control.ArmFFConfig;
 import POPLib.Control.PIDConfig;
 import POPLib.Motor.MotorConfig;
@@ -19,16 +18,21 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
 public final class Constants {
-    public static final boolean TUNING_MODE = false;
+    public static final boolean TUNING_MODE = true;
 
     public static class Ports {
-        public static final String CANIVORE_NAME = ""; // TODO: Set later
+        public static final String CANIVORE_NAME = "DriveMotors";
     }
 
     public static class Intake {
-        public static MotorConfig OUTER_MOTOR = new MotorConfig(-1); // TODO: set later
-        public static MotorConfig INNER_MOTOR = new MotorConfig(-1); // TODO: set later
-        public static BeamBreakConfig BEAM_BREAK = new BeamBreakConfig(-1); // TODO: set later
+        public static MotorConfig OUTER_MOTOR = new MotorConfig(36, 40, true, Mode.COAST); 
+        public static MotorConfig INNER_MOTOR = new MotorConfig(30, 40, false, Mode.COAST); 
+        public static BeamBreakConfig BEAM_BREAK = new BeamBreakConfig(1, true);
+    }
+
+    public static class Climb {
+        public static MotorConfig LEFT_MOTOR = new MotorConfig(36, 40, true, Mode.COAST); 
+        public static MotorConfig RIGHT_MOTOR = new MotorConfig(30, 40, false, Mode.COAST); 
     }
 
     public static class Wrist {
@@ -55,26 +59,27 @@ public final class Constants {
 
     public static class Shooter {
         public final static MotorConfig TOP_MOTOR = new MotorConfig(
-            -1,
-            20,
-            false,
-            new PIDConfig(0.0, 0.0, 0.0, 0.0),
+            40,
+            Constants.Ports.CANIVORE_NAME,
+            80,
+            true,
+            new PIDConfig(0.15, 0.0, 0.0, 0.0105),
             Mode.BRAKE
         );
 
         public final static MotorConfig BOTTOM_MOTOR = new MotorConfig(
-            -1,
-            20,
-            false,
-            new PIDConfig(0.0, 0.0, 0.0, 0.0),
+            41,
+            Constants.Ports.CANIVORE_NAME,
+            80,
+            true,
+            new PIDConfig(0.15, 0.0, 0.0, 0.0105),
             Mode.BRAKE
         ); 
 
         public final static MotorConfig INDEXER_MOTOR = new MotorConfig(
-            -1,
-            20,
+            31,
+            40,
             false,
-            new PIDConfig(0.0, 0.0, 0.0, 0.0),
             Mode.BRAKE
         );
 
@@ -82,7 +87,7 @@ public final class Constants {
 
         public static final double INDEXER_SPEED = 0.8;
 
-        public static BeamBreakConfig BEAM_BREAK = new BeamBreakConfig(-1); // TODO: set later
+        public static BeamBreakConfig BEAM_BREAK = new BeamBreakConfig(3, true); 
     }
 
     public static final class Swerve {
@@ -97,41 +102,42 @@ public final class Constants {
         public static final SwerveDriveKinematics SWERVE_KINEMATICS = new SwerveDriveKinematics(
             new Translation2d(WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0),
             new Translation2d(WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0),
-            new Translation2d(-WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0),
-            new Translation2d(-WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0)
+            new Translation2d(-WHEEL_BASE / 2.0, TRACK_WIDTH / 2.0),
+            new Translation2d(-WHEEL_BASE / 2.0, -TRACK_WIDTH / 2.0)
         );
 
         public static final MotorConfig ANGLE_CONFIG = new MotorConfig(
             20,
             false, // Make true if we have a stroke
-            PIDConfig.getPid(0.0), // TODO: retune
+            PIDConfig.getPid(0.3), // TODO: retune
             MotorConfig.Mode.COAST
         );
 
 
         public static final MotorConfig DRIVE_CONFIG = new MotorConfig(
-            40,
+            80,
             true,
-            PIDConfig.getPid(0.0),
+            PIDConfig.getPid(0.3, 0.73),
             MotorConfig.Mode.BRAKE
         );
 
-        public static final SDSModules MODULE_TYPE = SDSModules.MK4i;
+        public static final SDSModules MODULE_TYPE = SDSModules.MK4;
 
         public static final boolean SWERVE_TUNING_MODE = false;
 
+
         public static final SwerveModuleConstants[] SWERVE_MODULE_CONSTANTS = SwerveModuleConstants.generateConstants(
             new Rotation2d[] {
-                Rotation2d.fromDegrees(0.0),
-                Rotation2d.fromDegrees(0.0),
-                Rotation2d.fromDegrees(0.0),
-                Rotation2d.fromDegrees(0.0)
+                Rotation2d.fromDegrees(220.7),
+                Rotation2d.fromDegrees(134.7),
+                Rotation2d.fromDegrees(275.3),
+                Rotation2d.fromDegrees(280.5)
             },
             new Integer[] {
-                -1, -1, -1, //Module 0
-                -1, -1, -1 // Module 1
-                -1, -1, -1 // Module 2
-                -1, -1, -1 // Module 3
+                1, 22, 8, //Module 0 (front left on 1294 comp robot)
+                7, 23, 3, // Module 1 (front right on 1294 comp robot)
+                5, 21, 4, // Module 2 (back left on 1294 comp robot)
+                9, 20, 6 // Module 3 (back right on 1294 comp robot)
             },
             MODULE_TYPE, 
             SWERVE_TUNING_MODE, 
@@ -139,6 +145,6 @@ public final class Constants {
             ANGLE_CONFIG
         );
 
-        public static final int PIGEON_ID = -1;
+        public static final int PIGEON_ID = 25;
     }
 }

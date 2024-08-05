@@ -31,8 +31,10 @@ public final class Constants {
     }
 
     public static class Climb {
-        public static MotorConfig LEFT_MOTOR = new MotorConfig(36, 40, true, Mode.COAST); 
-        public static MotorConfig RIGHT_MOTOR = new MotorConfig(30, 40, false, Mode.COAST); 
+        public static MotorConfig LEFT_MOTOR = new MotorConfig(33, 10, false, Mode.COAST); 
+        public static MotorConfig RIGHT_MOTOR = new MotorConfig(32, 10, false, Mode.COAST); 
+
+        public static double MAX_POS = 390.0;
     }
 
     public static class Wrist {

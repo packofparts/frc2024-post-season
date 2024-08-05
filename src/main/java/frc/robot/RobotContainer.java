@@ -7,6 +7,7 @@ package frc.robot;
 import POPLib.Controllers.OI;
 import POPLib.Swerve.Commands.TeleopSwerveDrive;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
@@ -21,10 +22,12 @@ public class RobotContainer {
     private final Intake intake;
     private final Swerve swerve;
     private final Shooter shooter;
+    private final Climb climb;
     private final OI oi;
 
     public RobotContainer() {
         intake = Intake.getInstance();
+        climb = Climb.getInstance();
         oi = OI.getInstance();
         swerve = Swerve.getInstance();
         shooter = Shooter.getInstance();
@@ -34,6 +37,9 @@ public class RobotContainer {
 
     private void configureBindings() {
         oi.getDriverController().a().onTrue(intake.intakePiece().andThen(shooter.feedInNote()).andThen(intake.stopIntake()));
+
+        oi.getDriverController().x().onTrue(climb.autoMoveUp());
+        oi.getDriverController().y().onTrue(climb.autoMoveDown());
 
         swerve.setDefaultCommand(new TeleopSwerveDrive(swerve, oi));
     }

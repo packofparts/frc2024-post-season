@@ -39,12 +39,12 @@ public class Shooter extends TalonFlywheel {
         indexer.set(0.0);
     }
 
-    // public Command fireNote(double setpoint) {
-    //     return updateSetpointCommand(setpoint, Constants.Shooter.MAX_ERROR).
-    //         andThen(this::turnOnIndexer).
-    //         until(beamBreak.getUnBlockedSupplier())
-    //         .andThen(this::turnOffIndexer);
-    // }
+    public Command fireNote(double setpoint) {
+        return updateSetpointCommand(setpoint, Constants.Shooter.MAX_ERROR).
+            andThen(this::turnOnIndexer).
+            until(beamBreak.getUnBlockedSupplier())
+            .andThen(this::turnOffIndexer);
+    }
 
     public Command feedInNote() {
         return runOnce(this::turnOnIndexer).andThen(run(() -> {}).

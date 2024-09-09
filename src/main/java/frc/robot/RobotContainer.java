@@ -6,6 +6,7 @@ package frc.robot;
 
 import POPLib.Controllers.OI;
 import POPLib.Swerve.Commands.TeleopSwerveDrive;
+import POPLib.Swerve.Commands.WheelRadiusChar;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Intake;
@@ -40,6 +41,8 @@ public class RobotContainer {
 
         oi.getDriverController().x().onTrue(climb.autoMoveUp());
         oi.getDriverController().y().onTrue(climb.autoMoveDown());
+
+        oi.getDriverController().b().onTrue(new WheelRadiusChar(swerve, Constants.Swerve.MODULE_TYPE, Constants.Swerve.DRIVE_BASE_RADIUS));
 
         swerve.setDefaultCommand(new TeleopSwerveDrive(swerve, oi));
     }

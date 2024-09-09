@@ -7,7 +7,6 @@ import POPLib.Swerve.SwerveTemplates.VisionBaseSwerve;
 import frc.robot.Constants;
 
 public class Swerve extends VisionBaseSwerve {
-    
     private static Swerve instance;
 
     public static Swerve getInstance() {
@@ -30,5 +29,4 @@ public class Swerve extends VisionBaseSwerve {
             Constants.Swerve.SWERVE_KINEMATICS
         );    
     }
-    
 }

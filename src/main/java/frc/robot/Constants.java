@@ -109,9 +109,9 @@ public final class Constants {
         );
 
         public static final MotorConfig ANGLE_CONFIG = new MotorConfig(
-            20,
+            40,
             false, // Make true if we have a stroke
-            PIDConfig.getPid(0.3), // TODO: retune
+            PIDConfig.getPid(0.2), // TODO: retune
             MotorConfig.Mode.COAST
         );
 
@@ -119,27 +119,27 @@ public final class Constants {
         public static final MotorConfig DRIVE_CONFIG = new MotorConfig(
             80,
             true,
-            PIDConfig.getPid(0.3, 0.73),
+            PIDConfig.getPid(0.2, 0.73),
             MotorConfig.Mode.BRAKE
         );
 
         public static final SDSModules MODULE_TYPE = SDSModules.MK4;
 
-        public static final boolean SWERVE_TUNING_MODE = false;
+        public static final boolean SWERVE_TUNING_MODE = true;
 
 
         public static final SwerveModuleConstants[] SWERVE_MODULE_CONSTANTS = SwerveModuleConstants.generateConstants(
             new Rotation2d[] {
-                Rotation2d.fromDegrees(220.7),
-                Rotation2d.fromDegrees(134.7),
-                Rotation2d.fromDegrees(275.3),
-                Rotation2d.fromDegrees(280.5)
+                Rotation2d.fromDegrees(42.2),
+                Rotation2d.fromDegrees(315.4),
+                Rotation2d.fromDegrees(95.09),
+                Rotation2d.fromDegrees(101.95)
             },
             new Integer[] {
-                1, 22, 8, //Module 0 (front left on 1294 comp robot)
-                7, 23, 3, // Module 1 (front right on 1294 comp robot)
-                5, 21, 4, // Module 2 (back left on 1294 comp robot)
-                9, 20, 6 // Module 3 (back right on 1294 comp robot)
+                1, 22, 8, //Module 0 (front left on 1294 comp robot) CORRECT
+                7, 23, 3, // Module 1 (front right on 1294 comp robot) CORRECT
+                9, 20, 4, // Module 2 (back left on 1294 comp robot) CORRECT
+                5, 21, 6 // Module 3 (back right on 1294 comp robot)
             },
             MODULE_TYPE, 
             SWERVE_TUNING_MODE, 

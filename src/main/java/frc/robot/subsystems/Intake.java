@@ -9,8 +9,8 @@ import POPLib.Sensors.BeamBreak.BeamBreak;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants;
+import frc.robot.util.StateManager.RobotState;
 
 public class Intake extends SubsystemBase {
     private final CANSparkMax innerMotor;
@@ -34,39 +34,55 @@ public class Intake extends SubsystemBase {
 
     public Command runIntake() {
         return runOnce(() -> {
-            innerMotor.set(0.8);
-            outerMotor.set(0.8);
+            innerMotor.set(Constants.Intake.INTAKE_SPEED);
+            outerMotor.set(Constants.Intake.INTAKE_SPEED);
         });
     }
 
     public Command reverseIntake() {
         return runOnce(() -> {
-            innerMotor.set(-0.8);
-            outerMotor.set(-0.8);
+            innerMotor.set(Constants.Intake.REVERSE_SPEED);
+            outerMotor.set(Constants.Intake.REVERSE_SPEED);
         });
     }
 
     public Command stopIntake() {
         return runOnce(() -> {
-            innerMotor.set(0.0);
-            outerMotor.set(0.0);
+            innerMotor.set(Constants.Intake.IDLE_SPEED);
+            outerMotor.set(Constants.Intake.IDLE_SPEED);
         });
     }
 
-    public Command stopOuterIntake() {
+    public Command indexNote() {
         return runOnce(() -> {
-            outerMotor.set(0.0);
+            innerMotor.set(Constants.Intake.INTAKE_SPEED);
+            outerMotor.set(Constants.Intake.IDLE_SPEED);
         });
     }
 
     public Command intakePiece() {
         return runIntake().andThen(run(() -> {})).until(
             beamBreak.getBlockedSupplier()
-        ).andThen(stopOuterIntake());
+        ).andThen(indexNote());
+    }
+
+    public boolean hasNote() {
+        return beamBreak.isBlocked();
     }
 
     @Override
     public void periodic() {
         SmartDashboard.putBoolean("Intake Beam Break", beamBreak.isBlocked());
+    }
+
+    public Command changeState(RobotState newState) {
+        switch (newState) {
+            case INTAKE:
+                return runIntake();
+            case INDEX:
+                return indexNote();
+            default:
+                return stopIntake();
+        }
     }
 }

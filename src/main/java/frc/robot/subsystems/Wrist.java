@@ -5,7 +5,9 @@
 package frc.robot.subsystems;
 
 import POPLib.Subsytems.Pivot.SparkPivot;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.util.StateManager.RobotState;
 
 public class Wrist extends SparkPivot {
     private static Wrist instance;
@@ -28,6 +30,15 @@ public class Wrist extends SparkPivot {
             Constants.TUNING_MODE,
             "Wrist"
         );
+    }
+
+    public Command changeState(RobotState newState) {
+        switch (newState) {
+            case AMP:
+                return moveWrist(Constants.Wrist.AMP_SETPOINT, Constants.Wrist.MAX_ERROR);
+            default:
+                return moveWrist(Constants.Wrist.IDLE_SETPOINT, Constants.Wrist.MAX_ERROR);
+        }
     }
 
     public void periodic() {

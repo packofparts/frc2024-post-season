@@ -10,6 +10,7 @@ import POPLib.Subsytems.Flywheel.TalonFlywheel;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.util.StateManager.RobotState;
 
 public class Shooter extends TalonFlywheel {
     private final CANSparkMax indexer;
@@ -41,15 +42,22 @@ public class Shooter extends TalonFlywheel {
 
     public Command fireNote(double setpoint) {
         return updateSetpointCommand(setpoint, Constants.Shooter.MAX_ERROR).
-            andThen(this::turnOnIndexer).
-            until(beamBreak.getUnBlockedSupplier())
-            .andThen(this::turnOffIndexer);
+            andThen(this::turnOnIndexer);
     }
 
     public Command feedInNote() {
-        return runOnce(this::turnOnIndexer).andThen(run(() -> {}).
+        return updateSetpointCommand(Constants.Shooter.IDLE_SETPOINT, Constants.Shooter.MAX_ERROR)
+            .andThen(this::turnOnIndexer).andThen(run(() -> {}).
             until(beamBreak.getBlockedSupplier())
             .andThen(this::turnOffIndexer));
+    }
+
+    public boolean firingNote() {
+        return getVelocity() > 1.0;
+    }
+
+    public boolean hasNote() {
+        return beamBreak.isBlocked();
     }
 
     @Override
@@ -57,5 +65,18 @@ public class Shooter extends TalonFlywheel {
         super.periodic();
         SmartDashboard.putBoolean("Shooter Blocked", beamBreak.isBlocked());
         super.log();
+    }
+
+    public Command changeState(RobotState newState) {
+        switch (newState) {
+            case INDEX:
+                return feedInNote();
+            case FENDER:
+                return fireNote(Constants.Shooter.FENDOR_SETPOINT);
+            case AMP:
+                return fireNote(Constants.Shooter.AMP_SETPOINT);
+            default:
+                return fireNote(Constants.Shooter.IDLE_SETPOINT);
+        }
     }
 }

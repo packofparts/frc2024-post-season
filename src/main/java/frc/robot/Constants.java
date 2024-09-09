@@ -16,6 +16,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 
 public final class Constants {
     public static final boolean TUNING_MODE = true;
@@ -24,10 +26,30 @@ public final class Constants {
         public static final String CANIVORE_NAME = "DriveMotors";
     }
 
+    public static class Controls {
+        // Shared Util
+        public static final int IDLE = XboxController.Button.kStart.value;
+
+        // Driver Controls
+        public static final int INTAKE = XboxController.Button.kA.value;
+        public static final int FENDER = XboxController.Button.kB.value;
+        public static final int AMP = XboxController.Button.kY.value;
+
+        // Operator
+        public static final int CLIMB_UP = XboxController.Button.kA.value;
+        public static final int CLIMB_DOWN = XboxController.Button.kX.value;
+
+
+    }
+
     public static class Intake {
         public static MotorConfig OUTER_MOTOR = new MotorConfig(36, 40, true, Mode.COAST); 
         public static MotorConfig INNER_MOTOR = new MotorConfig(30, 40, false, Mode.COAST); 
         public static BeamBreakConfig BEAM_BREAK = new BeamBreakConfig(1, true);
+
+        public static double IDLE_SPEED = 0.0;
+        public static double INTAKE_SPEED = 0.8;
+        public static double REVERSE_SPEED = -0.8;
     }
 
     public static class Climb {
@@ -57,6 +79,12 @@ public final class Constants {
         public static final ArmFFConfig FF = new ArmFFConfig(0.0);
         public static final double GEAR_RATIO = 1.0;
         public static final AbsoluteEncoderConfig ABSOLUTE_CONFIG = new AbsoluteEncoderConfig(0, 0.0, false);
+
+        public static final double MAX_ERROR = 1.0;
+
+        public static final double IDLE_SETPOINT = 0.0;
+        public static final double STAGE_SETPOINT = 0.0;
+        public static final double AMP_SETPOINT = 0.0;
     }
 
     public static class Shooter {
@@ -88,6 +116,11 @@ public final class Constants {
         public static final double MAX_ERROR = 5.0;
 
         public static final double INDEXER_SPEED = 0.8;
+
+        public static final double IDLE_SETPOINT = 0.0;
+        public static final double FENDOR_SETPOINT = 0.0;
+        public static final double STAGE_SETPOINT = 0.0;
+        public static final double AMP_SETPOINT = 0.0;
 
         public static BeamBreakConfig BEAM_BREAK = new BeamBreakConfig(3, true); 
     }

@@ -41,7 +41,9 @@ public class Wrist extends SparkPivot {
         }
     }
 
+    @Override
     public void periodic() {
         super.periodic();
+        super.log();
     }
 }

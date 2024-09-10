@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 
 public final class Constants {
-    public static final boolean TUNING_MODE = true;
+    public static final boolean TUNING_MODE = false;
 
     public static class Ports {
         public static final String CANIVORE_NAME = "DriveMotors";
@@ -38,8 +38,6 @@ public final class Constants {
         // Operator
         public static final int CLIMB_UP = XboxController.Button.kA.value;
         public static final int CLIMB_DOWN = XboxController.Button.kX.value;
-
-
     }
 
     public static class Intake {
@@ -53,32 +51,32 @@ public final class Constants {
     }
 
     public static class Climb {
-        public static MotorConfig LEFT_MOTOR = new MotorConfig(33, 10, false, Mode.COAST); 
-        public static MotorConfig RIGHT_MOTOR = new MotorConfig(32, 10, false, Mode.COAST); 
+        public static MotorConfig LEFT_MOTOR = new MotorConfig(33, 5, false, Mode.COAST); 
+        public static MotorConfig RIGHT_MOTOR = new MotorConfig(32, 5, false, Mode.COAST); 
 
         public static double MAX_POS = 390.0;
     }
 
     public static class Wrist {
         public final static MotorConfig LEFT_MOTOR = new MotorConfig(
-            -1,
-            20,
+            34,
+            40,
             false,
-            new PIDConfig(0.0, 0.0, 0.0, 0.0),
+            new PIDConfig(0.1, 0.0, 0.0, 0.0),
             Mode.BRAKE
         );
 
         public final static MotorConfig RIGHT_MOTOR = new MotorConfig(
-            -1,
-            20,
-            false,
-            new PIDConfig(0.0, 0.0, 0.0, 0.0),
+            35,
+            40,
+            true,
+            new PIDConfig(0.1, 0.0, 0.0, 0.0),
             Mode.BRAKE
         );
         
-        public static final ArmFFConfig FF = new ArmFFConfig(0.0);
-        public static final double GEAR_RATIO = 1.0;
-        public static final AbsoluteEncoderConfig ABSOLUTE_CONFIG = new AbsoluteEncoderConfig(0, 0.0, false);
+        public static final ArmFFConfig FF = new ArmFFConfig(0.5);
+        public static final double GEAR_RATIO = 75.0;
+        public static final AbsoluteEncoderConfig ABSOLUTE_CONFIG = new AbsoluteEncoderConfig(0, 127.0, false);
 
         public static final double MAX_ERROR = 1.0;
 
@@ -89,20 +87,20 @@ public final class Constants {
 
     public static class Shooter {
         public final static MotorConfig TOP_MOTOR = new MotorConfig(
-            40,
+            42,
             Constants.Ports.CANIVORE_NAME,
-            80,
+            40,
             true,
-            new PIDConfig(0.15, 0.0, 0.0, 0.0105),
+            new PIDConfig(0.02, 0.0, 0.002, 0.0095),
             Mode.BRAKE
         );
 
         public final static MotorConfig BOTTOM_MOTOR = new MotorConfig(
             41,
             Constants.Ports.CANIVORE_NAME,
-            80,
+            40,
             true,
-            new PIDConfig(0.15, 0.0, 0.0, 0.0105),
+            new PIDConfig(0.02, 0.0, 0.002, 0.0095),
             Mode.BRAKE
         ); 
 
@@ -117,10 +115,10 @@ public final class Constants {
 
         public static final double INDEXER_SPEED = 0.8;
 
-        public static final double IDLE_SETPOINT = 0.0;
-        public static final double FENDOR_SETPOINT = 0.0;
-        public static final double STAGE_SETPOINT = 0.0;
-        public static final double AMP_SETPOINT = 0.0;
+        public static final double IDLE_SETPOINT = 170.0;
+        public static final double FENDOR_SETPOINT = 170.0;
+        public static final double STAGE_SETPOINT = 170.0;
+        public static final double AMP_SETPOINT = 170.0;
 
         public static BeamBreakConfig BEAM_BREAK = new BeamBreakConfig(3, true); 
     }

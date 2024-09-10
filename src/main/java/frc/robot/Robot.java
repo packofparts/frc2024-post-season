@@ -46,20 +46,24 @@ public class Robot extends TimedRobot {
         wrist = Wrist.getInstance();
 
         configureBindings();
+
+        transitionState(RobotState.IDLE).schedule();
     }
 
 
     private void configureBindings() {
         // Driver
         oi.getDriverButton(Controls.INTAKE).onTrue(transitionState(RobotState.INTAKE));
-        oi.getDriverButton(Controls.IDLE).onTrue(transitionState(RobotState.IDLE));
-        oi.getDriverButton(Controls.AMP).onTrue(transitionState(RobotState.AMP));
-        oi.getDriverButton(Controls.FENDER).onTrue(transitionState(RobotState.FENDER));
+        // oi.getDriverButton(Controls.INTAKE).onTrue(shooter.updateSetpointCommand(100, 5));
+        // oi.getDriverButton(Controls.IDLE).onTrue(transitionState(RobotState.IDLE));
+        // oi.getDriverButton(Controls.AMP).onTrue(transitionState(RobotState.AMP));
+        // oi.getDriverButton(Controls.FENDER).onTrue(transitionState(RobotState.FENDER));
 
 
         // Operator
-        oi.getOperatorButton(Controls.CLIMB_UP).onTrue(climb.autoMoveUp());
-        oi.getOperatorButton(Controls.CLIMB_DOWN).onTrue(climb.autoMoveDown());
+        oi.getOperatorButton(Controls.CLIMB_UP).onTrue(climb.moveUp()).onFalse(climb.stop());
+        oi.getOperatorButton(Controls.CLIMB_DOWN).onTrue(climb.moveDown()).onFalse(climb.stop());
+
         oi.getOperatorButton(Controls.IDLE).onTrue(transitionState(RobotState.IDLE));
 
         // oi.getDriverController().b().onTrue(new WheelRadiusChar(swerve, Constants.Swerve.MODULE_TYPE, Constants.Swerve.DRIVE_BASE_RADIUS));

@@ -62,8 +62,8 @@ public class Shooter extends TalonFlywheel {
 
     @Override
     public void periodic() {
-        super.periodic();
         SmartDashboard.putBoolean("Shooter Blocked", beamBreak.isBlocked());
+        super.periodic();
         super.log();
     }
 

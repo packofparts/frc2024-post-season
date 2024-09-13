@@ -28,6 +28,8 @@ public class Shooter extends TalonFlywheel {
     private Shooter() {
         super(Constants.Shooter.TOP_MOTOR, Constants.Shooter.BOTTOM_MOTOR, "Shooter", Constants.TUNING_MODE, false);
 
+        setpoint.setDefault(Constants.Shooter.IDLE_SETPOINT);
+
         indexer = Constants.Shooter.INDEXER_MOTOR.createSparkMax();
         beamBreak = Constants.Shooter.BEAM_BREAK.createBeamBreak();
     }
@@ -46,10 +48,15 @@ public class Shooter extends TalonFlywheel {
     }
 
     public Command feedInNote() {
-        return updateSetpointCommand(Constants.Shooter.IDLE_SETPOINT, Constants.Shooter.MAX_ERROR)
-            .andThen(this::turnOnIndexer).andThen(run(() -> {}).
-            until(beamBreak.getBlockedSupplier())
-            .andThen(this::turnOffIndexer));
+        // return updateSetpointCommand(Constants.Shooter.IDLE_SETPOINT, Constants.Shooter.MAX_ERROR)
+        //     .andThen(this::turnOnIndexer);
+
+        return run(() -> turnOnIndexer());
+
+        // return updateSetpointCommand(Constants.Shooter.IDLE_SETPOINT, Constants.Shooter.MAX_ERROR)
+        //     .andThen(this::turnOnIndexer).andThen(run(() -> {}).
+        //     until(beamBreak.getBlockedSupplier())
+        //     .andThen(this::turnOffIndexer));
     }
 
     public boolean firingNote() {

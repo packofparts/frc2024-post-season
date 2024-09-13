@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import POPLib.Sensors.Gyro.Pigeon;
 import POPLib.Swerve.SwerveModules.SwerveModuleNeoTalon;
-import POPLib.Swerve.SwerveModules.SwerveModuleTalon;
 import POPLib.Swerve.SwerveTemplates.VisionBaseSwerve;
 import frc.robot.Constants;
 

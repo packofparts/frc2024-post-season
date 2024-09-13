@@ -29,7 +29,19 @@ public class Climb extends SubsystemBase {
 
     public Command moveUp() {
         return runOnce(() -> {
-            leftMotor.set(0.5);
+            leftMotor.set(Constants.Climb.SPEED);
+        });
+    }
+
+    public Command moveDown() {
+        return runOnce(() -> {
+            leftMotor.set(-1 * Constants.Climb.SPEED);
+        });
+    }
+
+    public Command stop() {
+        return runOnce(() -> {
+            leftMotor.set(0.0);
         });
     }
 
@@ -43,18 +55,6 @@ public class Climb extends SubsystemBase {
         return moveUp().andThen(run(() -> {}).until(
             () -> leftMotor.getEncoder().getPosition() < 0.0
         )).andThen(stop());
-    }
-
-    public Command moveDown() {
-        return runOnce(() -> {
-            leftMotor.set(-0.5);
-        });
-    }
-
-    public Command stop() {
-        return runOnce(() -> {
-            leftMotor.set(0.0);
-        });
     }
 
     @Override

@@ -30,6 +30,8 @@ public class Wrist extends SparkPivot {
             Constants.TUNING_MODE,
             "Wrist"
         );
+
+        setpoint.setDefault(Constants.Wrist.IDLE_SETPOINT);
     }
 
     public Command changeState(RobotState newState) {

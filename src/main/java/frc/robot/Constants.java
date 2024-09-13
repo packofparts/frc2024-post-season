@@ -17,7 +17,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
 
 public final class Constants {
     public static final boolean TUNING_MODE = false;
@@ -54,6 +53,8 @@ public final class Constants {
         public static MotorConfig LEFT_MOTOR = new MotorConfig(33, 5, false, Mode.COAST); 
         public static MotorConfig RIGHT_MOTOR = new MotorConfig(32, 5, false, Mode.COAST); 
 
+        public static double SPEED = 0.8;
+
         public static double MAX_POS = 390.0;
     }
 
@@ -80,9 +81,9 @@ public final class Constants {
 
         public static final double MAX_ERROR = 1.0;
 
-        public static final double IDLE_SETPOINT = 0.0;
-        public static final double STAGE_SETPOINT = 0.0;
-        public static final double AMP_SETPOINT = 0.0;
+        public static final double IDLE_SETPOINT = 199.0;
+        public static final double STAGE_SETPOINT = 199.0;
+        public static final double AMP_SETPOINT = 199.0;
     }
 
     public static class Shooter {
@@ -115,10 +116,10 @@ public final class Constants {
 
         public static final double INDEXER_SPEED = 0.8;
 
-        public static final double IDLE_SETPOINT = 170.0;
-        public static final double FENDOR_SETPOINT = 170.0;
-        public static final double STAGE_SETPOINT = 170.0;
-        public static final double AMP_SETPOINT = 170.0;
+        public static final double IDLE_SETPOINT = 0.0;
+        public static final double FENDOR_SETPOINT = 100.0;
+        public static final double STAGE_SETPOINT = 100.0;
+        public static final double AMP_SETPOINT = 100.0;
 
         public static BeamBreakConfig BEAM_BREAK = new BeamBreakConfig(3, true); 
     }

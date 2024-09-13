@@ -7,6 +7,7 @@ package frc.robot;
 import POPLib.Controllers.OI;
 import POPLib.Swerve.Commands.TeleopSwerveDrive;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -35,6 +36,7 @@ public class Robot extends TimedRobot {
     private Climb climb;
     private Wrist wrist;
     private OI oi;
+    private RobotState currState;
 
     @Override
     public void robotInit() {
@@ -44,10 +46,9 @@ public class Robot extends TimedRobot {
         swerve = Swerve.getInstance();
         shooter = Shooter.getInstance();
         wrist = Wrist.getInstance();
+        currState = RobotState.IDLE;
 
         configureBindings();
-
-        transitionState(RobotState.IDLE).schedule();
     }
 
 
@@ -57,7 +58,7 @@ public class Robot extends TimedRobot {
         // oi.getDriverButton(Controls.INTAKE).onTrue(shooter.updateSetpointCommand(100, 5));
         // oi.getDriverButton(Controls.IDLE).onTrue(transitionState(RobotState.IDLE));
         // oi.getDriverButton(Controls.AMP).onTrue(transitionState(RobotState.AMP));
-        // oi.getDriverButton(Controls.FENDER).onTrue(transitionState(RobotState.FENDER));
+        oi.getDriverButton(Controls.FENDER).onTrue(transitionState(RobotState.FENDER));
 
 
         // Operator
@@ -74,7 +75,10 @@ public class Robot extends TimedRobot {
 
     public Command transitionState(RobotState newState) {
         return new SequentialCommandGroup (
-            new InstantCommand(() -> System.out.println("Transitining to state: " + newState.toString())),
+            new InstantCommand(() -> {
+                currState = newState;
+                System.out.println("Transitining to state: " + newState.toString());
+            }),
             wrist.changeState(newState),
             new ParallelCommandGroup(
                 intake.changeState(newState),
@@ -87,8 +91,10 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
 
+        SmartDashboard.putString("Current State", currState.toString());
+
         // State machine
-        if (intake.hasNote()) {
+        if (intake.hasNote() && currState == RobotState.INTAKE) {
             transitionState(RobotState.INDEX).schedule();
         }
 
@@ -123,6 +129,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        transitionState(RobotState.IDLE).schedule();
+
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }

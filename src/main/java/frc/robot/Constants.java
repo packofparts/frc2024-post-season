@@ -77,7 +77,7 @@ public final class Constants {
         
         public static final ArmFFConfig FF = new ArmFFConfig(0.5);
         public static final double GEAR_RATIO = 75.0;
-        public static final AbsoluteEncoderConfig ABSOLUTE_CONFIG = new AbsoluteEncoderConfig(0, 127.0, false);
+        public static final AbsoluteEncoderConfig ABSOLUTE_CONFIG = new AbsoluteEncoderConfig(0, 127.0 - 326.0, false);
 
         public static final double MAX_ERROR = 1.0;
 

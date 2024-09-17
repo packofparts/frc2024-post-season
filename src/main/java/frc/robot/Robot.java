@@ -102,9 +102,9 @@ public class Robot extends TimedRobot {
             transitionState(RobotState.IDLE).schedule();;
         }
 
-        if (!shooter.hasNote() && shooter.firingNote()) {
-            transitionState(RobotState.IDLE).schedule();
-        }
+        // if (!shooter.hasNote() && shooter.firingNote()) {
+        //     transitionState(RobotState.IDLE).schedule();
+        // }
     }
 
     @Override

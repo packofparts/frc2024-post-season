@@ -47,6 +47,10 @@ public class Shooter extends TalonFlywheel {
             andThen(this::turnOnIndexer);
     }
 
+    public Command fireNoteNoIndexer(double setpoint) {
+        return updateSetpointCommand(setpoint, Constants.Shooter.MAX_ERROR);
+    }
+
     public Command feedInNote() {
         // return updateSetpointCommand(Constants.Shooter.IDLE_SETPOINT, Constants.Shooter.MAX_ERROR)
         //     .andThen(this::turnOnIndexer);
@@ -83,7 +87,7 @@ public class Shooter extends TalonFlywheel {
             case AMP:
                 return fireNote(Constants.Shooter.AMP_SETPOINT);
             default:
-                return fireNote(Constants.Shooter.IDLE_SETPOINT);
+                return fireNoteNoIndexer(Constants.Shooter.IDLE_SETPOINT);
         }
     }
 }

@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.BooleanSupplier;
 import com.revrobotics.CANSparkMax;
 import POPLib.Sensors.BeamBreak.BeamBreak;
 import POPLib.Subsytems.Flywheel.TalonFlywheel;
@@ -69,6 +70,10 @@ public class Shooter extends TalonFlywheel {
 
     public boolean hasNote() {
         return beamBreak.isBlocked();
+    }
+
+    public BooleanSupplier hasNoteSupplier(){
+        return beamBreak.getBlockedSupplier();
     }
 
     @Override

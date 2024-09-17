@@ -4,9 +4,13 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import POPLib.Controllers.OI;
 import POPLib.Swerve.Commands.TeleopSwerveDrive;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -29,6 +33,7 @@ import frc.robot.util.StateManager.RobotState;
  */
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
+    private SendableChooser<Command> pathSelector = new SendableChooser<>();
 
     private Intake intake;
     private Swerve swerve;
@@ -49,6 +54,11 @@ public class Robot extends TimedRobot {
         currState = RobotState.IDLE;
 
         configureBindings();
+
+        
+        SmartDashboard.putData("Auto chooser", pathSelector);
+        pathSelector.addOption("3 Note Center Start", AutoBuilder.buildAuto("3note_center_start"));
+        pathSelector.addOption("None", AutoBuilder.buildAuto("None"));
     }
 
 
@@ -105,6 +115,10 @@ public class Robot extends TimedRobot {
         // if (!shooter.hasNote() && shooter.firingNote()) {
         //     transitionState(RobotState.IDLE).schedule();
         // }
+
+        if (m_autonomousCommand != null) {
+            m_autonomousCommand.cancel();
+          }
     }
 
     @Override
@@ -117,7 +131,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        m_autonomousCommand = null;
+        m_autonomousCommand = getAutonomousCommand();
 
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
@@ -139,5 +153,19 @@ public class Robot extends TimedRobot {
     @Override
     public void testInit() {
         CommandScheduler.getInstance().cancelAll();
+    }
+
+    // Auto stuff
+    public Command getAutonomousCommand() {
+
+        if(pathSelector.getSelected().toString().equals("None")){
+            return new PathPlannerAuto("Example Auto");
+        }
+        return pathSelector.getSelected();
+    }
+
+    public void initializeNamedCommands(){
+        NamedCommands.registerCommand("intake_piece", intake.intakePiece());
+        NamedCommands.registerCommand("launch_piece", shooter.fireNote(Constants.Shooter.FENDOR_SETPOINT).until(shooter.hasNoteSupplier()).andThen(shooter.fireNote(Constants.Shooter.IDLE_SETPOINT)));
     }
 }

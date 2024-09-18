@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3500000000000076,
+        "x": 2.3500000000000014,
         "y": 5.55
       },
       "isLocked": false,
@@ -16,15 +16,15 @@
     },
     {
       "anchor": {
-        "x": 2.9045963127897476,
-        "y": 5.55
+        "x": 8.2864833355566,
+        "y": 7.436550124898811
       },
       "prevControl": {
-        "x": 1.9045963127897476,
-        "y": 5.55
+        "x": 7.264195247814957,
+        "y": 7.755677094088001
       },
       "nextControl": null,
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": null
     }
   ],
@@ -32,8 +32,8 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "intake_1st_piece",
-      "waypointRelativePos": 0.1,
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.65,
       "command": {
         "type": "sequential",
         "data": {
@@ -61,7 +61,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "3_note_paths",
+  "folder": "center_note_paths",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

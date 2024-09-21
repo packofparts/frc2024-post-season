@@ -6,6 +6,8 @@ public class StateManager {
         INTAKE,
         INDEX,
         FENDER,
+        SUCK_IN,
+        REVERSE,
         AMP;
     }
 }

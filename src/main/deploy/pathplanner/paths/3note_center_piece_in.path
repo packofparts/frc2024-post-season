@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "intake_1st_piece",
-      "waypointRelativePos": 0.1,
+      "waypointRelativePos": 0.15,
       "command": {
         "type": "sequential",
         "data": {

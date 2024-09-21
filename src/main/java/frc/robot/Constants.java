@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.util.PIDConstants;
 import POPLib.Control.ArmFFConfig;
 import POPLib.Control.PIDConfig;
 import POPLib.Motor.MotorConfig;
@@ -20,6 +21,7 @@ import edu.wpi.first.wpilibj.XboxController;
 
 public final class Constants {
     public static final boolean TUNING_MODE = false;
+    public static final boolean JOYSTICKS = false;
 
     public static class Ports {
         public static final String CANIVORE_NAME = "DriveMotors";
@@ -33,7 +35,8 @@ public final class Constants {
         public static final int INTAKE = XboxController.Button.kA.value;
         public static final int FENDER = XboxController.Button.kB.value;
         public static final int AMP = XboxController.Button.kY.value;
-
+        public static final int SUCK_IN = XboxController.Button.kX.value;
+    
         // Operator
         public static final int CLIMB_UP = XboxController.Button.kA.value;
         public static final int CLIMB_DOWN = XboxController.Button.kX.value;
@@ -63,7 +66,7 @@ public final class Constants {
             34,
             40,
             false,
-            new PIDConfig(0.1, 0.0, 0.0, 0.0),
+            new PIDConfig(0.05, 0.0, 0.0, 0.0), // 0.1
             Mode.BRAKE
         );
 
@@ -71,19 +74,19 @@ public final class Constants {
             35,
             40,
             true,
-            new PIDConfig(0.1, 0.0, 0.0, 0.0),
+            new PIDConfig(0.05, 0.0, 0.0, 0.0), // 0.1
             Mode.BRAKE
         );
         
         public static final ArmFFConfig FF = new ArmFFConfig(0.5);
         public static final double GEAR_RATIO = 75.0;
-        public static final AbsoluteEncoderConfig ABSOLUTE_CONFIG = new AbsoluteEncoderConfig(0, 127.0 - 326.0, false);
+        public static final AbsoluteEncoderConfig ABSOLUTE_CONFIG = new AbsoluteEncoderConfig(0, 127.0 , false);
 
         public static final double MAX_ERROR = 1.0;
 
-        public static final double IDLE_SETPOINT = 199.0;
-        public static final double STAGE_SETPOINT = 199.0;
-        public static final double AMP_SETPOINT = 199.0;
+        public static final double IDLE_SETPOINT = 198.0;
+        public static final double STAGE_SETPOINT = 198.0;
+        public static final double AMP_SETPOINT = 99.69;
     }
 
     public static class Shooter {
@@ -92,8 +95,8 @@ public final class Constants {
             Constants.Ports.CANIVORE_NAME,
             40,
             true,
-            new PIDConfig(0.02, 0.0, 0.002, 0.0095),
-            Mode.BRAKE
+            new PIDConfig(0.008, 0.0, 0.002, 0.0095), // 0.02
+            Mode.COAST
         );
 
         public final static MotorConfig BOTTOM_MOTOR = new MotorConfig(
@@ -101,25 +104,25 @@ public final class Constants {
             Constants.Ports.CANIVORE_NAME,
             40,
             true,
-            new PIDConfig(0.02, 0.0, 0.002, 0.0095),
-            Mode.BRAKE
+            new PIDConfig(0.01, 0.0, 0.002, 0.0095), // 0.02
+            Mode.COAST
         ); 
 
         public final static MotorConfig INDEXER_MOTOR = new MotorConfig(
             31,
-            40,
+            80,
             false,
-            Mode.BRAKE
+            Mode.COAST
         );
 
-        public static final double MAX_ERROR = 5.0;
+        public static final double MAX_ERROR = 1.0;
 
-        public static final double INDEXER_SPEED = 0.8;
+        public static final double INDEXER_SPEED = 0.9;
 
         public static final double IDLE_SETPOINT = 0.0;
-        public static final double FENDOR_SETPOINT = 100.0;
-        public static final double STAGE_SETPOINT = 100.0;
-        public static final double AMP_SETPOINT = 100.0;
+        public static final double FENDOR_SETPOINT = 90.0;
+        public static final double STAGE_SETPOINT = 90.0;
+        public static final double AMP_SETPOINT = 30.0;
 
         public static BeamBreakConfig BEAM_BREAK = new BeamBreakConfig(3, true); 
     }
@@ -143,21 +146,27 @@ public final class Constants {
         public static final MotorConfig ANGLE_CONFIG = new MotorConfig(
             40,
             false, // Make true if we have a stroke
-            PIDConfig.getPid(0.2), // TODO: retune
+            PIDConfig.getPid(0.1), // TODO: retune
             MotorConfig.Mode.COAST
         );
 
 
         public static final MotorConfig DRIVE_CONFIG = new MotorConfig(
             80,
-            true,
-            PIDConfig.getPid(0.2, 0.73),
+            false,
+            PIDConfig.getPid(0.1, 0.73),
             MotorConfig.Mode.BRAKE
         );
 
         public static final SDSModules MODULE_TYPE = SDSModules.MK4;
 
         public static final boolean SWERVE_TUNING_MODE = true;
+
+          public static final PIDConstants AUTO_TRANSLATION = new PIDConstants(3); // Previouse value modified on
+                                                                                         // 3/20/24 15 25
+                public static final PIDConstants AUTO_ROTATION = new PIDConstants(0.8); // Previouse value modified on
+                                                                                        // 3/20/24 1.5 2.0
+
 
 
         public static final SwerveModuleConstants[] SWERVE_MODULE_CONSTANTS = SwerveModuleConstants.generateConstants(

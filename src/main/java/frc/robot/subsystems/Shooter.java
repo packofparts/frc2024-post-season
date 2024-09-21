@@ -49,7 +49,7 @@ public class Shooter extends TalonFlywheel {
     }
 
     public Command fireNoteNoIndexer(double setpoint) {
-        return updateSetpointCommand(setpoint, Constants.Shooter.MAX_ERROR);
+        return updateSetpointCommand(setpoint, Constants.Shooter.MAX_ERROR).andThen(runOnce(() -> turnOffIndexer()));
     }
 
     public Command feedInNote() {
@@ -79,8 +79,13 @@ public class Shooter extends TalonFlywheel {
     @Override
     public void periodic() {
         SmartDashboard.putBoolean("Shooter Blocked", beamBreak.isBlocked());
+        SmartDashboard.putNumber("Indexer current", indexer.getOutputCurrent());
         super.periodic();
         super.log();
+    }
+
+    public Command suckIn() {
+        return runOnce(() -> indexer.set(-0.3));
     }
 
     public Command changeState(RobotState newState) {
@@ -91,6 +96,8 @@ public class Shooter extends TalonFlywheel {
                 return fireNote(Constants.Shooter.FENDOR_SETPOINT);
             case AMP:
                 return fireNote(Constants.Shooter.AMP_SETPOINT);
+            case SUCK_IN:
+                return suckIn();
             default:
                 return fireNoteNoIndexer(Constants.Shooter.IDLE_SETPOINT);
         }

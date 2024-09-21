@@ -5,10 +5,17 @@
 package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import POPLib.Controllers.OI;
+import POPLib.Controllers.OI.Joysticks;
+import POPLib.Controllers.OI.OI;
+import POPLib.Controllers.OI.XboxOI;
 import POPLib.Swerve.Commands.TeleopSwerveDrive;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,41 +40,66 @@ import frc.robot.util.StateManager.RobotState;
  */
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
-    private SendableChooser<Command> pathSelector = new SendableChooser<>();
+    private SendableChooser<Command> pathSelector;
 
     private Intake intake;
     private Swerve swerve;
     private Shooter shooter;
     private Climb climb;
     private Wrist wrist;
-    private OI oi;
+    private Joysticks oi;
     private RobotState currState;
 
     @Override
     public void robotInit() {
         intake = Intake.getInstance();
         climb = Climb.getInstance();
-        oi = OI.getInstance();
+        oi = new Joysticks();
         swerve = Swerve.getInstance();
         shooter = Shooter.getInstance();
         wrist = Wrist.getInstance();
         currState = RobotState.IDLE;
 
-        configureBindings();
+        NamedCommands.registerCommand("intake_piece", transitionState(RobotState.INTAKE));
+        NamedCommands.registerCommand("launch_piece", transitionState(RobotState.FENDER));
 
         
+        // Configure AutoBuilder last
+        AutoBuilder.configureHolonomic(
+                swerve::getOdomPose,
+                swerve::setOdomPose,
+                swerve::getChassisSpeeds,
+                swerve::driveChassis,
+                new HolonomicPathFollowerConfig(
+                        Constants.Swerve.AUTO_TRANSLATION,
+                        Constants.Swerve.AUTO_ROTATION,
+                        Constants.Swerve.MODULE_TYPE.maxSpeed,
+                        Constants.Swerve.DRIVE_BASE_RADIUS,
+                        new ReplanningConfig(true, true)),
+                () -> DriverStation.getAlliance().get() == DriverStation.Alliance.Red,
+                swerve
+        );
+        
+        // pathSelector.addOption("3 Note Center Start", new PathPlannerAuto("3note_center_start"));
+        // pathSelector.addOption("Line", AutoBuilder.followPath(PathPlannerPath.fromPathFile("Line")));
+        // pathSelector.addOption("None", new InstantCommand(() -> System.out.println(
+        //         "EmPTy"
+        // )));
+
+        // PathPlannerPath.fromPathFile("Example Path");
+        pathSelector = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto chooser", pathSelector);
-        pathSelector.addOption("3 Note Center Start", AutoBuilder.buildAuto("3note_center_start"));
-        pathSelector.addOption("None", AutoBuilder.buildAuto("None"));
+
+        configureBindings();
     }
 
 
     private void configureBindings() {
         // Driver
         oi.getDriverButton(Controls.INTAKE).onTrue(transitionState(RobotState.INTAKE));
-        // oi.getDriverButton(Controls.INTAKE).onTrue(shooter.updateSetpointCommand(100, 5));
-        // oi.getDriverButton(Controls.IDLE).onTrue(transitionState(RobotState.IDLE));
-        // oi.getDriverButton(Controls.AMP).onTrue(transitionState(RobotState.AMP));
+        oi.getDriverButton(Controls.SUCK_IN).onTrue(transitionState(RobotState.SUCK_IN).andThen(transitionState(RobotState.IDLE)));
+        oi.getDriverButton(Controls.IDLE).onTrue(transitionState(RobotState.IDLE));
+        oi.getDriverButton(Controls.AMP).onTrue(transitionState(RobotState.AMP));
         oi.getDriverButton(Controls.FENDER).onTrue(transitionState(RobotState.FENDER));
 
 
@@ -108,17 +140,19 @@ public class Robot extends TimedRobot {
             transitionState(RobotState.INDEX).schedule();
         }
 
-        if (shooter.hasNote()) {
-            transitionState(RobotState.IDLE).schedule();;
+        if (currState == RobotState.INDEX && shooter.hasNote()) {
+            transitionState(RobotState.SUCK_IN).andThen(transitionState(RobotState.IDLE)).schedule();
         }
 
-        // if (!shooter.hasNote() && shooter.firingNote()) {
-        //     transitionState(RobotState.IDLE).schedule();
-        // }
+        if (!shooter.hasNote() && (currState == RobotState.FENDER || currState == RobotState.AMP)) {
+            transitionState(RobotState.IDLE).schedule();
+        }
 
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
-          }
+        }
+
+        System.out.println("TransJoystick:" + (oi.getDriveTrainTranslationX() + oi.getDriveTrainTranslationY()));
     }
 
     @Override
@@ -157,15 +191,6 @@ public class Robot extends TimedRobot {
 
     // Auto stuff
     public Command getAutonomousCommand() {
-
-        if(pathSelector.getSelected().toString().equals("None")){
-            return new PathPlannerAuto("Example Auto");
-        }
         return pathSelector.getSelected();
-    }
-
-    public void initializeNamedCommands(){
-        NamedCommands.registerCommand("intake_piece", intake.intakePiece());
-        NamedCommands.registerCommand("launch_piece", shooter.fireNote(Constants.Shooter.FENDOR_SETPOINT).until(shooter.hasNoteSupplier()).andThen(shooter.fireNote(Constants.Shooter.IDLE_SETPOINT)));
     }
 }

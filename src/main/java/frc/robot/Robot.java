@@ -17,6 +17,7 @@ import POPLib.Controllers.OI.XboxOI;
 import POPLib.Swerve.Commands.TeleopSwerveDrive;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -47,14 +48,14 @@ public class Robot extends TimedRobot {
     private Shooter shooter;
     private Climb climb;
     private Wrist wrist;
-    private Joysticks oi;
+    private XboxOI oi;
     private RobotState currState;
 
     @Override
     public void robotInit() {
         intake = Intake.getInstance();
         climb = Climb.getInstance();
-        oi = new Joysticks();
+        oi = new XboxOI();
         swerve = Swerve.getInstance();
         shooter = Shooter.getInstance();
         wrist = Wrist.getInstance();
@@ -88,6 +89,7 @@ public class Robot extends TimedRobot {
 
         // PathPlannerPath.fromPathFile("Example Path");
         pathSelector = AutoBuilder.buildAutoChooser();
+        pathSelector.addOption("Shoot Fender", transitionState(RobotState.FENDER));
         SmartDashboard.putData("Auto chooser", pathSelector);
 
         configureBindings();
@@ -96,18 +98,25 @@ public class Robot extends TimedRobot {
 
     private void configureBindings() {
         // Driver
-        oi.getDriverButton(Controls.INTAKE).onTrue(transitionState(RobotState.INTAKE));
-        oi.getDriverButton(Controls.SUCK_IN).onTrue(transitionState(RobotState.SUCK_IN).andThen(transitionState(RobotState.IDLE)));
-        oi.getDriverButton(Controls.IDLE).onTrue(transitionState(RobotState.IDLE));
+        oi.getDriverTrigger(Controls.INTAKE).onTrue(transitionState(RobotState.INTAKE));
+        oi.getDriverButton(Controls.REVERSE).onTrue(transitionState(RobotState.SUCK_IN).andThen(transitionState(RobotState.IDLE)));
         oi.getDriverButton(Controls.AMP).onTrue(transitionState(RobotState.AMP));
-        oi.getDriverButton(Controls.FENDER).onTrue(transitionState(RobotState.FENDER));
+        oi.getDriverTrigger(Controls.FENDER).onTrue(transitionState(RobotState.FENDER));
+        oi.getDriverButton(Controls.REVERSE).onTrue(transitionState(RobotState.REVERSE)).onFalse(transitionState(RobotState.IDLE));
+
+        oi.getDriverButton(Controls.IDLE).onTrue(transitionState(RobotState.IDLE));
 
 
         // Operator
         oi.getOperatorButton(Controls.CLIMB_UP).onTrue(climb.moveUp()).onFalse(climb.stop());
         oi.getOperatorButton(Controls.CLIMB_DOWN).onTrue(climb.moveDown()).onFalse(climb.stop());
 
+        oi.getOperatorButton(Controls.ZERO_GYRO).onTrue(swerve.zeroGyro());
+        oi.getOperatorButton(Controls.ZERO_ENCODERS).onTrue(new InstantCommand(() -> swerve.updateEncoders()));
+
         oi.getOperatorButton(Controls.IDLE).onTrue(transitionState(RobotState.IDLE));
+
+        oi.getOperatorButton(XboxController.Button.kLeftBumper.value).onTrue(shooter.toggaleVoltage());
 
         // oi.getDriverController().b().onTrue(new WheelRadiusChar(swerve, Constants.Swerve.MODULE_TYPE, Constants.Swerve.DRIVE_BASE_RADIUS));
 
@@ -147,12 +156,6 @@ public class Robot extends TimedRobot {
         if (!shooter.hasNote() && (currState == RobotState.FENDER || currState == RobotState.AMP)) {
             transitionState(RobotState.IDLE).schedule();
         }
-
-        if (m_autonomousCommand != null) {
-            m_autonomousCommand.cancel();
-        }
-
-        System.out.println("TransJoystick:" + (oi.getDriveTrainTranslationX() + oi.getDriveTrainTranslationY()));
     }
 
     @Override
@@ -166,6 +169,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         m_autonomousCommand = getAutonomousCommand();
+        // m_autonomousCommand = null;
 
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
@@ -173,7 +177,8 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void autonomousPeriodic() {}
+    public void autonomousPeriodic() {
+    }
 
     @Override
     public void teleopInit() {

@@ -98,6 +98,8 @@ public class Shooter extends TalonFlywheel {
                 return fireNote(Constants.Shooter.AMP_SETPOINT);
             case SUCK_IN:
                 return suckIn();
+            case REVERSE:
+                return suckIn();
             default:
                 return fireNoteNoIndexer(Constants.Shooter.IDLE_SETPOINT);
         }

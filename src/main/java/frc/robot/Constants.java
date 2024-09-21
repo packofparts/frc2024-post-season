@@ -32,14 +32,33 @@ public final class Constants {
         public static final int IDLE = XboxController.Button.kStart.value;
 
         // Driver Controls
-        public static final int INTAKE = XboxController.Button.kA.value;
-        public static final int FENDER = XboxController.Button.kB.value;
-        public static final int AMP = XboxController.Button.kY.value;
-        public static final int SUCK_IN = XboxController.Button.kX.value;
+
+        // Orignal
+        // public static final int INTAKE = XboxController.Button.kA.value;
+        // public static final int FENDER = XboxController.Button.kB.value;
+        // public static final int AMP = XboxController.Button.kY.value;
+        // public static final int REVERSE = XboxController.Button.kX.value;
+
+
+        // SIMON
+        // public static final int INTAKE = XboxController.Axis.kLeftTrigger.value;
+        // public static final int FENDER = XboxController.Axis.kRightTrigger.value;// Right Trigger
+        // public static final int AMP = XboxController.Button.kB.value;
+        // public static final int REVERSE = XboxController.Button.kA.value;
+
+        // ANIKETH
+        public static final int INTAKE = XboxController.Axis.kLeftTrigger.value;
+        public static final int FENDER = XboxController.Axis.kRightTrigger.value;
+        public static final int AMP = XboxController.Button.kRightBumper.value;
+        public static final int REVERSE = XboxController.Button.kA.value;
     
         // Operator
-        public static final int CLIMB_UP = XboxController.Button.kA.value;
-        public static final int CLIMB_DOWN = XboxController.Button.kX.value;
+        public static final int CLIMB_UP = XboxController.Button.kX.value;
+        public static final int CLIMB_DOWN = XboxController.Button.kA.value;
+
+        public static final int ZERO_GYRO = XboxController.Button.kY.value;
+        public static final int ZERO_ENCODERS = XboxController.Button.kB.value;
+        
     }
 
     public static class Intake {
@@ -49,7 +68,7 @@ public final class Constants {
 
         public static double IDLE_SPEED = 0.0;
         public static double INTAKE_SPEED = 0.8;
-        public static double REVERSE_SPEED = -0.8;
+        public static double REVERSE_SPEED = -0.2;
     }
 
     public static class Climb {
@@ -66,7 +85,7 @@ public final class Constants {
             34,
             40,
             false,
-            new PIDConfig(0.05, 0.0, 0.0, 0.0), // 0.1
+            new PIDConfig(0.01, 0.0, 0.0, 0.0), // 0.1
             Mode.BRAKE
         );
 
@@ -74,7 +93,7 @@ public final class Constants {
             35,
             40,
             true,
-            new PIDConfig(0.05, 0.0, 0.0, 0.0), // 0.1
+            new PIDConfig(0.01, 0.0, 0.0, 0.0), // 0.1
             Mode.BRAKE
         );
         
@@ -82,7 +101,7 @@ public final class Constants {
         public static final double GEAR_RATIO = 75.0;
         public static final AbsoluteEncoderConfig ABSOLUTE_CONFIG = new AbsoluteEncoderConfig(0, 127.0 , false);
 
-        public static final double MAX_ERROR = 1.0;
+        public static final double MAX_ERROR = 2.0;
 
         public static final double IDLE_SETPOINT = 198.0;
         public static final double STAGE_SETPOINT = 198.0;
@@ -95,7 +114,7 @@ public final class Constants {
             Constants.Ports.CANIVORE_NAME,
             40,
             true,
-            new PIDConfig(0.008, 0.0, 0.002, 0.0095), // 0.02
+            new PIDConfig(0.01, 0.0, 0.004, 0.0095), // 0.02
             Mode.COAST
         );
 
@@ -104,7 +123,7 @@ public final class Constants {
             Constants.Ports.CANIVORE_NAME,
             40,
             true,
-            new PIDConfig(0.01, 0.0, 0.002, 0.0095), // 0.02
+            new PIDConfig(0.01, 0.0, 0.004, 0.0095), // 0.02
             Mode.COAST
         ); 
 
@@ -160,7 +179,7 @@ public final class Constants {
 
         public static final SDSModules MODULE_TYPE = SDSModules.MK4;
 
-        public static final boolean SWERVE_TUNING_MODE = true;
+        public static final boolean SWERVE_TUNING_MODE = false;
 
           public static final PIDConstants AUTO_TRANSLATION = new PIDConstants(3); // Previouse value modified on
                                                                                          // 3/20/24 15 25
@@ -171,10 +190,10 @@ public final class Constants {
 
         public static final SwerveModuleConstants[] SWERVE_MODULE_CONSTANTS = SwerveModuleConstants.generateConstants(
             new Rotation2d[] {
-                Rotation2d.fromDegrees(42.2),
-                Rotation2d.fromDegrees(315.4),
-                Rotation2d.fromDegrees(95.09),
-                Rotation2d.fromDegrees(101.95)
+                Rotation2d.fromDegrees(41.044922), // 42.2
+                Rotation2d.fromDegrees(315.791016), // 315.4
+                Rotation2d.fromDegrees(94.306641), // 95.09
+                Rotation2d.fromDegrees(97.646484) // 101.95
             },
             new Integer[] {
                 1, 22, 8, //Module 0 (front left on 1294 comp robot) CORRECT

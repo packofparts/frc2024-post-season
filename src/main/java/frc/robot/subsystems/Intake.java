@@ -81,6 +81,8 @@ public class Intake extends SubsystemBase {
                 return runIntake();
             case INDEX:
                 return indexNote();
+            case REVERSE:
+                return reverseIntake();
             default:
                 return stopIntake();
         }

@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.61,
-        "y": 4.1
+        "x": 1.3208026416052832,
+        "y": 5.554144441622216
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6623359562429436,
-        "y": 5.098629534754568
+        "x": 1.8423503513673698,
+        "y": 5.899585132503598
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.35,
-        "y": 5.55
+        "x": 2.709338752010838,
+        "y": 7.017187367708068
       },
       "prevControl": {
-        "x": 1.9159182888970683,
-        "y": 5.530237697882261
+        "x": 2.025230717128101,
+        "y": 7.2000677334688
+      },
+      "nextControl": {
+        "x": 2.7652470202721364,
+        "y": 7.002241593024355
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.2395224790449584,
+        "y": 5.547371094742189
+      },
+      "prevControl": {
+        "x": 2.079417492168318,
+        "y": 7.091694183388367
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,25 +46,7 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.45,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "launch_piece"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -61,7 +59,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "3_note_paths",
+  "folder": null,
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

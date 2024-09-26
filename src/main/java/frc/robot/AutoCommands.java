@@ -49,7 +49,7 @@ public class AutoCommands {
 
         chooser.addOption("nothing", new InstantCommand(() -> { }));
 
-        chooser.addOption("3 note", makeAuto("3note_center_start"));
+        chooser.addOption("3 note", makeAuto("line"));
 
         SmartDashboard.putData("Auto Selecter", chooser);
     }

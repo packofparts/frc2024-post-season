@@ -46,6 +46,19 @@ public final class Constants {
         // public static final int AMP = XboxController.Button.kB.value;
         // public static final int REVERSE = XboxController.Button.kA.value;
 
+        // HARSHA
+        // public static final int INTAKE = XboxController.Axis.kLeftTrigger.value;
+        // public static final int FENDER = XboxController.Axis.kRightTrigger.value;
+        // public static final int AMP = XboxController.Button.kB.value;
+        // public static final int REVERSE = XboxController.Button.kA.value;
+
+        // ADITYA G
+        // public static final int INTAKE = XboxController.Axis.kLeftTrigger.value;
+        // public static final int FENDER = XboxController.Axis.kRightTrigger.value;
+        // public static final int AMP = XboxController.Button.kA.value;
+        // public static final int REVERSE = XboxController.Button.kB.value;
+
+
         // ANIKETH
         public static final int INTAKE = XboxController.Axis.kLeftTrigger.value;
         public static final int FENDER = XboxController.Axis.kRightTrigger.value;
@@ -75,7 +88,7 @@ public final class Constants {
         public static MotorConfig LEFT_MOTOR = new MotorConfig(33, 5, false, Mode.COAST); 
         public static MotorConfig RIGHT_MOTOR = new MotorConfig(32, 5, false, Mode.COAST); 
 
-        public static double SPEED = 0.8;
+        public static double SPEED = 1.0;
 
         public static double MAX_POS = 390.0;
     }
@@ -101,7 +114,7 @@ public final class Constants {
         public static final double GEAR_RATIO = 75.0;
         public static final AbsoluteEncoderConfig ABSOLUTE_CONFIG = new AbsoluteEncoderConfig(0, 127.0 , false);
 
-        public static final double MAX_ERROR = 2.0;
+        public static final double MAX_ERROR = 10.0;
 
         public static final double IDLE_SETPOINT = 198.0;
         public static final double STAGE_SETPOINT = 198.0;
@@ -114,7 +127,7 @@ public final class Constants {
             Constants.Ports.CANIVORE_NAME,
             40,
             true,
-            new PIDConfig(0.01, 0.0, 0.004, 0.0095), // 0.02
+            new PIDConfig(0.01, 0.0, 0.0, 0.0095), // 0.02
             Mode.COAST
         );
 
@@ -123,9 +136,10 @@ public final class Constants {
             Constants.Ports.CANIVORE_NAME,
             40,
             true,
-            new PIDConfig(0.01, 0.0, 0.004, 0.0095), // 0.02
+            new PIDConfig(0.01, 0.0, 0.0, 0.0095), // 0.02
             Mode.COAST
         ); 
+        
 
         public final static MotorConfig INDEXER_MOTOR = new MotorConfig(
             31,
@@ -134,13 +148,13 @@ public final class Constants {
             Mode.COAST
         );
 
-        public static final double MAX_ERROR = 1.0;
+        public static final double MAX_ERROR = 8.0;
 
         public static final double INDEXER_SPEED = 0.9;
 
         public static final double IDLE_SETPOINT = 0.0;
-        public static final double FENDOR_SETPOINT = 90.0;
-        public static final double STAGE_SETPOINT = 90.0;
+        public static final double FENDOR_SETPOINT = 80.0;
+        public static final double STAGE_SETPOINT = 80.0;
         public static final double AMP_SETPOINT = 30.0;
 
         public static BeamBreakConfig BEAM_BREAK = new BeamBreakConfig(3, true); 
@@ -163,7 +177,7 @@ public final class Constants {
         );
 
         public static final MotorConfig ANGLE_CONFIG = new MotorConfig(
-            40,
+            30,
             false, // Make true if we have a stroke
             PIDConfig.getPid(0.1), // TODO: retune
             MotorConfig.Mode.COAST
@@ -181,12 +195,10 @@ public final class Constants {
 
         public static final boolean SWERVE_TUNING_MODE = false;
 
-          public static final PIDConstants AUTO_TRANSLATION = new PIDConstants(3); // Previouse value modified on
+        public static final PIDConstants AUTO_TRANSLATION = new PIDConstants(3); // Previouse value modified on
                                                                                          // 3/20/24 15 25
-                public static final PIDConstants AUTO_ROTATION = new PIDConstants(0.8); // Previouse value modified on
+        public static final PIDConstants AUTO_ROTATION = new PIDConstants(0.8); // Previouse value modified on
                                                                                         // 3/20/24 1.5 2.0
-
-
 
         public static final SwerveModuleConstants[] SWERVE_MODULE_CONSTANTS = SwerveModuleConstants.generateConstants(
             new Rotation2d[] {

@@ -15,13 +15,18 @@ import POPLib.Controllers.OI.Joysticks;
 import POPLib.Controllers.OI.OI;
 import POPLib.Controllers.OI.XboxOI;
 import POPLib.Swerve.Commands.TeleopSwerveDrive;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -50,6 +55,7 @@ public class Robot extends TimedRobot {
     private Wrist wrist;
     private XboxOI oi;
     private RobotState currState;
+    private AutoCommands auto;
 
     @Override
     public void robotInit() {
@@ -61,36 +67,8 @@ public class Robot extends TimedRobot {
         wrist = Wrist.getInstance();
         currState = RobotState.IDLE;
 
-        NamedCommands.registerCommand("intake_piece", transitionState(RobotState.INTAKE));
-        NamedCommands.registerCommand("launch_piece", transitionState(RobotState.FENDER));
+        auto = new AutoCommands(swerve, m_autonomousCommand, m_autonomousCommand);
 
-        
-        // Configure AutoBuilder last
-        AutoBuilder.configureHolonomic(
-                swerve::getOdomPose,
-                swerve::setOdomPose,
-                swerve::getChassisSpeeds,
-                swerve::driveChassis,
-                new HolonomicPathFollowerConfig(
-                        Constants.Swerve.AUTO_TRANSLATION,
-                        Constants.Swerve.AUTO_ROTATION,
-                        Constants.Swerve.MODULE_TYPE.maxSpeed,
-                        Constants.Swerve.DRIVE_BASE_RADIUS,
-                        new ReplanningConfig(true, true)),
-                () -> DriverStation.getAlliance().get() == DriverStation.Alliance.Red,
-                swerve
-        );
-        
-        // pathSelector.addOption("3 Note Center Start", new PathPlannerAuto("3note_center_start"));
-        // pathSelector.addOption("Line", AutoBuilder.followPath(PathPlannerPath.fromPathFile("Line")));
-        // pathSelector.addOption("None", new InstantCommand(() -> System.out.println(
-        //         "EmPTy"
-        // )));
-
-        // PathPlannerPath.fromPathFile("Example Path");
-        pathSelector = AutoBuilder.buildAutoChooser();
-        pathSelector.addOption("Shoot Fender", transitionState(RobotState.FENDER));
-        SmartDashboard.putData("Auto chooser", pathSelector);
 
         configureBindings();
     }
@@ -156,6 +134,11 @@ public class Robot extends TimedRobot {
         if (!shooter.hasNote() && (currState == RobotState.FENDER || currState == RobotState.AMP)) {
             transitionState(RobotState.IDLE).schedule();
         }
+
+        //if(intake.hasNote()){
+        //    enableRumble().schedule();
+        //    disableRumble().schedule();
+        //}
     }
 
     @Override
@@ -169,7 +152,6 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         m_autonomousCommand = getAutonomousCommand();
-        // m_autonomousCommand = null;
 
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
@@ -196,6 +178,14 @@ public class Robot extends TimedRobot {
 
     // Auto stuff
     public Command getAutonomousCommand() {
-        return pathSelector.getSelected();
+        return auto.getAuto();
     }
+
+    //public Command enableRumble(){
+      //  return Commands.runOnce(() -> oi.getDriverController().getHID().setRumble(RumbleType.kBothRumble, 0.5), intake);
+    //}
+
+    //public Command disableRumble(){
+      //  return Commands.runOnce(() -> oi.getDriverController().getHID().setRumble(RumbleType.kBothRumble, 0), intake);
+    //}
 }

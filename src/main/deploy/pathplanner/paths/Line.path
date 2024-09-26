@@ -16,12 +16,28 @@
     },
     {
       "anchor": {
-        "x": 0.0,
-        "y": 5.0
+        "x": 3.467953602571013,
+        "y": 5.838625010581712
       },
       "prevControl": {
-        "x": -9.307315673519885e-17,
-        "y": 6.52
+        "x": 2.853636729279296,
+        "y": 6.756212239042759
+      },
+      "nextControl": {
+        "x": 4.538142409615293,
+        "y": 4.2401151468953175
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.560917788499384,
+        "y": 4.362035390735805
+      },
+      "prevControl": {
+        "x": 5.560917788499384,
+        "y": 3.6020353907358054
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +46,18 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.5,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 1.0,
     "maxAcceleration": 1.0,
@@ -43,7 +70,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Test",
+  "folder": null,
   "previewStartingState": null,
   "useDefaultConstraints": false
 }

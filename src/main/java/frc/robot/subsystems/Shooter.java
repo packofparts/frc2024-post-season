@@ -85,7 +85,7 @@ public class Shooter extends TalonFlywheel {
     }
 
     public Command suckIn() {
-        return runOnce(() -> indexer.set(-0.3));
+        return runOnce(() -> indexer.set(-0.6));
     }
 
     public Command changeState(RobotState newState) {

@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants.Controls;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Intake;
@@ -67,7 +68,11 @@ public class Robot extends TimedRobot {
         wrist = Wrist.getInstance();
         currState = RobotState.IDLE;
 
-        auto = new AutoCommands(swerve, m_autonomousCommand, m_autonomousCommand);
+        auto = new AutoCommands(swerve, 
+            transitionState(RobotState.INTAKE).andThen(new WaitUntilCommand(() -> intake.hasNote())).andThen(transitionState(RobotState.INDEX)), 
+            transitionState(RobotState.SUCK_IN),
+            transitionState(RobotState.FENDER).andThen(new WaitUntilCommand(() -> !shooter.hasNote())).andThen(transitionState(RobotState.IDLE))
+        );
 
 
         configureBindings();
@@ -122,19 +127,6 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putString("Current State", currState.toString());
 
-        // State machine
-        if (intake.hasNote() && currState == RobotState.INTAKE) {
-            transitionState(RobotState.INDEX).schedule();
-        }
-
-        if (currState == RobotState.INDEX && shooter.hasNote()) {
-            transitionState(RobotState.SUCK_IN).andThen(transitionState(RobotState.IDLE)).schedule();
-        }
-
-        if (!shooter.hasNote() && (currState == RobotState.FENDER || currState == RobotState.AMP)) {
-            transitionState(RobotState.IDLE).schedule();
-        }
-
         //if(intake.hasNote()){
         //    enableRumble().schedule();
         //    disableRumble().schedule();
@@ -168,6 +160,22 @@ public class Robot extends TimedRobot {
 
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
+        }
+    }
+
+    @Override
+    public void teleopPeriodic() {
+        // State machine
+        if (intake.hasNote() && currState == RobotState.INTAKE) {
+            transitionState(RobotState.INDEX).schedule();
+        }
+
+        if (currState == RobotState.INDEX && shooter.hasNote()) {
+            transitionState(RobotState.SUCK_IN).andThen(transitionState(RobotState.IDLE)).schedule();
+        }
+
+        if (!shooter.hasNote() && (currState == RobotState.FENDER || currState == RobotState.AMP)) {
+            transitionState(RobotState.IDLE).schedule();
         }
     }
 

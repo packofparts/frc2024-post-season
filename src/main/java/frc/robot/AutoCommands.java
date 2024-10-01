@@ -22,10 +22,13 @@ import frc.robot.util.StateManager.RobotState;
 public class AutoCommands {
     private SendableChooser<Command> chooser;
 
-    public AutoCommands(Swerve swerve, Command intakeCommand, Command fenderShot) {
+    public AutoCommands(Swerve swerve, Command intakeCommand, Command suckInCommand, Command fenderShot) {
         NamedCommands.registerCommand("Nothing", new InstantCommand());
 
         NamedCommands.registerCommand("intake_piece", intakeCommand);
+                
+        
+        NamedCommands.registerCommand("suck_in", suckInCommand);
 
         NamedCommands.registerCommand("launch_piece", fenderShot);
 
@@ -49,7 +52,7 @@ public class AutoCommands {
 
         chooser.addOption("nothing", new InstantCommand(() -> { }));
 
-        chooser.addOption("3 note", makeAuto("line"));
+        chooser.addOption("line", makeAuto("line"));
 
         SmartDashboard.putData("Auto Selecter", chooser);
     }

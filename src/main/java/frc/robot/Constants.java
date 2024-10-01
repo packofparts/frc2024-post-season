@@ -195,9 +195,9 @@ public final class Constants {
 
         public static final boolean SWERVE_TUNING_MODE = false;
 
-        public static final PIDConstants AUTO_TRANSLATION = new PIDConstants(0.5); // Previouse value modified on
+        public static final PIDConstants AUTO_TRANSLATION = new PIDConstants(10); // Previouse value modified on
                                                                                          // 3/20/24 15 25
-        public static final PIDConstants AUTO_ROTATION = new PIDConstants(0.5); // Previouse value modified on
+        public static final PIDConstants AUTO_ROTATION = new PIDConstants(1.5); // Previouse value modified on
                                                                                         // 3/20/24 1.5 2.0
 
         public static final SwerveModuleConstants[] SWERVE_MODULE_CONSTANTS = SwerveModuleConstants.generateConstants(

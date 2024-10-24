@@ -19,6 +19,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -93,6 +94,7 @@ public class Robot extends TimedRobot {
         // Operator
         oi.getOperatorButton(Controls.CLIMB_UP).onTrue(climb.moveUp()).onFalse(climb.stop());
         oi.getOperatorButton(Controls.CLIMB_DOWN).onTrue(climb.moveDown()).onFalse(climb.stop());
+        oi.getOperatorButton(Controls.OPERATOR_REVERSE).onTrue(transitionState(RobotState.SUCK_IN));
 
         oi.getOperatorButton(Controls.ZERO_GYRO).onTrue(swerve.zeroGyro());
         oi.getOperatorButton(Controls.ZERO_ENCODERS).onTrue(new InstantCommand(() -> swerve.updateEncoders()));
@@ -111,7 +113,7 @@ public class Robot extends TimedRobot {
         return new SequentialCommandGroup (
             new InstantCommand(() -> {
                 currState = newState;
-                System.out.println("Transitining to state: " + newState.toString());
+                System.out.println("Transitining to state: " + newState.toString() + " " + Timer.getMatchTime());
             }),
             wrist.changeState(newState),
             new ParallelCommandGroup(
@@ -146,6 +148,7 @@ public class Robot extends TimedRobot {
         m_autonomousCommand = getAutonomousCommand();
 
         if (m_autonomousCommand != null) {
+            System.out.println("Auton starting " + Timer.getMatchTime());
             m_autonomousCommand.schedule();
         }
     }
@@ -156,6 +159,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        System.out.println("Teleop starting");
         transitionState(RobotState.IDLE).schedule();
 
         if (m_autonomousCommand != null) {

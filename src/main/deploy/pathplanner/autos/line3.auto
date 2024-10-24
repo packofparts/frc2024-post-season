@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.69,
+      "y": 4.39
+    },
+    "rotation": -60.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "launch_piece"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "move_from_side"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "suck_in"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch_piece"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

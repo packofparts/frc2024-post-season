@@ -64,6 +64,7 @@ public final class Constants {
         public static final int FENDER = XboxController.Axis.kRightTrigger.value;
         public static final int AMP = XboxController.Button.kRightBumper.value;
         public static final int REVERSE = XboxController.Button.kA.value;
+        public static final int OPERATOR_REVERSE = XboxController.Button.kB.value;
     
         // Operator
         public static final int CLIMB_UP = XboxController.Button.kX.value;
@@ -85,8 +86,8 @@ public final class Constants {
     }
 
     public static class Climb {
-        public static MotorConfig LEFT_MOTOR = new MotorConfig(33, 5, false, Mode.COAST); 
-        public static MotorConfig RIGHT_MOTOR = new MotorConfig(32, 5, false, Mode.COAST); 
+        public static MotorConfig LEFT_MOTOR = new MotorConfig(33, 5, true, Mode.COAST); 
+        public static MotorConfig RIGHT_MOTOR = new MotorConfig(32, 5, true, Mode.COAST); 
 
         public static double SPEED = 1.0;
 
@@ -127,7 +128,7 @@ public final class Constants {
             Constants.Ports.CANIVORE_NAME,
             40,
             true,
-            new PIDConfig(0.01, 0.0, 0.0, 0.0095), // 0.02
+            new PIDConfig(0.0115, 0.0, 0.0, 0.0095), // 0.02
             Mode.COAST
         );
 
@@ -136,7 +137,7 @@ public final class Constants {
             Constants.Ports.CANIVORE_NAME,
             40,
             true,
-            new PIDConfig(0.01, 0.0, 0.0, 0.0095), // 0.02
+            new PIDConfig(0.0115, 0.0, 0.0, 0.0095), // 0.02
             Mode.COAST
         ); 
         
@@ -177,7 +178,7 @@ public final class Constants {
         );
 
         public static final MotorConfig ANGLE_CONFIG = new MotorConfig(
-            30,
+            25,
             false, // Make true if we have a stroke
             PIDConfig.getPid(0.1), // TODO: retune
             MotorConfig.Mode.COAST
@@ -185,9 +186,9 @@ public final class Constants {
 
 
         public static final MotorConfig DRIVE_CONFIG = new MotorConfig(
-            80,
-            false,
-            PIDConfig.getPid(0.1, 0.73),
+            60,
+            true,
+            PIDConfig.getPid(0.1, 0.06),
             MotorConfig.Mode.BRAKE
         );
 
@@ -195,17 +196,17 @@ public final class Constants {
 
         public static final boolean SWERVE_TUNING_MODE = false;
 
-        public static final PIDConstants AUTO_TRANSLATION = new PIDConstants(10); // Previouse value modified on
+        public static final PIDConstants AUTO_TRANSLATION = new PIDConstants(12, 0.0, 0.0); // Previous value modified on
                                                                                          // 3/20/24 15 25
-        public static final PIDConstants AUTO_ROTATION = new PIDConstants(1.5); // Previouse value modified on
+        public static final PIDConstants AUTO_ROTATION = new PIDConstants(3.0, 0.0, 0.0); // Previous value modified on
                                                                                         // 3/20/24 1.5 2.0
 
         public static final SwerveModuleConstants[] SWERVE_MODULE_CONSTANTS = SwerveModuleConstants.generateConstants(
             new Rotation2d[] {
-                Rotation2d.fromDegrees(41.044922), // 42.2
-                Rotation2d.fromDegrees(315.791016), // 315.4
-                Rotation2d.fromDegrees(94.306641), // 95.09
-                Rotation2d.fromDegrees(97.646484) // 101.95
+                Rotation2d.fromDegrees(219.287109), // 42.2
+                Rotation2d.fromDegrees(135.527344), // 315.4
+                Rotation2d.fromDegrees(275.361328), // 95.09
+                Rotation2d.fromDegrees(277.470703) // 101.95 THIS ONE
             },
             new Integer[] {
                 1, 22, 8, //Module 0 (front left on 1294 comp robot) CORRECT

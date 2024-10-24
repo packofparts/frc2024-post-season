@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.35,
-        "y": 5.55
+        "x": 0.69,
+        "y": 4.38
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4245068156774952,
-        "y": 4.154690542717763
+        "x": 0.6231479129624926,
+        "y": 2.905765811531623
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.7635255270510544,
-        "y": 4.084328168656337
+        "x": 3.6237405808144953,
+        "y": 1.0092286851240373
       },
       "prevControl": {
-        "x": 2.782928377050691,
-        "y": 4.161939568668781
-      },
-      "nextControl": {
-        "x": 2.7441226770514175,
-        "y": 4.0067167686438925
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 1.35,
-        "y": 5.55
-      },
-      "prevControl": {
-        "x": 1.2411226822453647,
-        "y": 4.827182287697909
+        "x": 1.5172297011260691,
+        "y": 0.9414952163237656
       },
       "nextControl": null,
       "isLocked": false,
@@ -49,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "sequential",
         "data": {
@@ -57,7 +41,7 @@
             {
               "type": "named",
               "data": {
-                "name": "intake_piece"
+                "name": "launch_piece"
               }
             }
           ]
@@ -79,7 +63,7 @@
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -60.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

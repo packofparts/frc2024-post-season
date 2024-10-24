@@ -52,7 +52,15 @@ public class AutoCommands {
 
         chooser.addOption("nothing", new InstantCommand(() -> { }));
 
-        chooser.addOption("line", makeAuto("line"));
+        chooser.addOption("4 piece", makeAuto("line"));
+        chooser.addOption("4 piece + centerline", makeAuto("line2"));
+        chooser.addOption("line 3", makeAuto("line3"));
+        chooser.addOption("line 3 simple move out", makeAuto("line3 simple"));
+        chooser.addOption("launch (amp) + move out", makeAuto("speaker (amp) + move out"));
+        chooser.addOption("launch (source) + move out", makeAuto("speaker (source) + move out"));
+        
+        chooser.addOption("Shoot Fendor Side", fenderShot);
+
 
         SmartDashboard.putData("Auto Selecter", chooser);
     }

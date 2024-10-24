@@ -20,6 +20,24 @@
         {
           "type": "path",
           "data": {
+            "pathName": "amp far"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "suck_in"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "launch_piece"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
             "pathName": "center_close"
           }
         },

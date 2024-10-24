@@ -24,7 +24,7 @@ public class Climb extends SubsystemBase {
         leftMotor = Constants.Climb.LEFT_MOTOR.createSparkMax();
         rightMotor =  Constants.Climb.RIGHT_MOTOR.createSparkMax();
 
-        rightMotor.follow(leftMotor, true);
+        rightMotor.follow(leftMotor, false);
     }
 
     public Command moveUp() {
